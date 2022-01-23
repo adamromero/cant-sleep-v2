@@ -110,8 +110,12 @@
    max-width: 30rem;
    width: 100%;
    margin: auto;
+   background-color: transparent;
+   border: 0;
+   color: $light-gray;
 
-   &:hover {
+   &:hover,
+   &:focus-visible {
       color: $light-purple;
    }
 }
