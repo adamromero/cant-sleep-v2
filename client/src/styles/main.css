@@ -633,6 +633,20 @@ h2 {
   color: #ad8eda;
 }
 
+.ReactModal__Overlay {
+  opacity: 0;
+  -webkit-transition: opacity 500ms ease-in-out;
+  transition: opacity 500ms ease-in-out;
+}
+
+.ReactModal__Overlay--after-open {
+  opacity: 1;
+}
+
+.ReactModal__Overlay--before-close {
+  opacity: 0;
+}
+
 .wrapper {
   width: 100%;
   height: 100%;
