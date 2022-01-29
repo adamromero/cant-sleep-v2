@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Modal from "react-modal";
 
 const customStyles = {
@@ -15,9 +15,10 @@ const customStyles = {
 
 Modal.setAppElement("#app");
 
-const UrbanLegends = ({ data }) => {
+const UrbanLegends = () => {
    const [modalIsOpen, setModalIsOpen] = useState(false);
    const [modalContent, setModalContent] = useState({});
+   const [data, setData] = useState([]);
 
    const openModal = (legend) => {
       setModalIsOpen(true);
@@ -28,13 +29,19 @@ const UrbanLegends = ({ data }) => {
       setModalIsOpen(false);
    };
 
+   useEffect(() => {
+      fetch("http://localhost:5000/legends")
+         .then((response) => response.json())
+         .then((result) => setData(result.data));
+   }, []);
+
    return (
       <section className="content">
          <h2 className="page-heading">Urban Legends</h2>
          <div className="grid-container text-center">
             {data.map((legend) => (
                <button
-                  key={legend.id}
+                  key={legend._id}
                   className="grid-column"
                   onClick={() => openModal(legend)}
                >

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Modal from "react-modal";
 
 const customStyles = {
@@ -15,9 +15,10 @@ const customStyles = {
 
 Modal.setAppElement("#app");
 
-const WeirdVideos = ({ data }) => {
+const WeirdVideos = () => {
    const [modalIsOpen, setModalIsOpen] = useState(false);
    const [modalContent, setModalContent] = useState({});
+   const [data, setData] = useState([]);
 
    const openModal = (video) => {
       setModalIsOpen(true);
@@ -28,13 +29,19 @@ const WeirdVideos = ({ data }) => {
       setModalIsOpen(false);
    };
 
+   useEffect(() => {
+      fetch("http://localhost:5000/videos")
+         .then((response) => response.json())
+         .then((result) => setData(result.data));
+   }, []);
+
    return (
       <section className="content">
          <h2 className="page-heading">Weird Videos</h2>
          <div className="grid-container text-center">
             {data.map((video) => (
                <button
-                  key={video.id}
+                  key={video._id}
                   className="grid-column"
                   onClick={() => openModal(video)}
                >

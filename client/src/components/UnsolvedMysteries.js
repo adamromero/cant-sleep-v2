@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Modal from "react-modal";
 
 const customStyles = {
@@ -15,9 +15,10 @@ const customStyles = {
 
 Modal.setAppElement("#app");
 
-const UnsolvedMysteries = ({ data }) => {
+const UnsolvedMysteries = () => {
    const [modalIsOpen, setModalIsOpen] = useState(false);
    const [modalContent, setModalContent] = useState({});
+   const [data, setData] = useState([]);
 
    const openModal = (mystery) => {
       setModalIsOpen(true);
@@ -28,13 +29,19 @@ const UnsolvedMysteries = ({ data }) => {
       setModalIsOpen(false);
    };
 
+   useEffect(() => {
+      fetch("http://localhost:5000/mysteries")
+         .then((response) => response.json())
+         .then((result) => setData(result.data));
+   }, []);
+
    return (
       <section className="content">
          <h2 className="page-heading">Unsolved Mysteries</h2>
          <div className="grid-container text-center">
             {data.map((mystery) => (
                <button
-                  key={mystery.id}
+                  key={mystery._id}
                   className="grid-column"
                   onClick={() => openModal(mystery)}
                >

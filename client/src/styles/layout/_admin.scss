@@ -37,6 +37,9 @@
 }
 
 .admin-form {
+   display: flex;
+   flex-direction: column;
+   width: 400px;
    padding: 2.5rem 0 0;
 }
 
