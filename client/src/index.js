@@ -13,6 +13,8 @@ import Login from "./components/Login";
 
 import "./styles/main.css";
 import AdminLegends from "./components/AdminLegends";
+import AdminMysteries from "./components/AdminMysteries";
+import AdminVideos from "./components/AdminVideos";
 
 const App = () => {
    return (
@@ -27,6 +29,8 @@ const App = () => {
             <Route path="/admin" element={<Admin />} />
             <Route path="/login" element={<Login />} />
             <Route path="/admin_legends" element={<AdminLegends />} />
+            <Route path="/admin_mysteries" element={<AdminMysteries />} />
+            <Route path="/admin_videos" element={<AdminVideos />} />
          </Routes>
       </BrowserRouter>
    );

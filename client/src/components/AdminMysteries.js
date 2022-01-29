@@ -1,18 +1,18 @@
 import React, { useState, useEffect } from "react";
 
-const AdminLegends = () => {
+const AdminMysteries = () => {
    const [data, setData] = useState([]);
 
    useEffect(() => {
-      fetch("http://localhost:5000/legends")
+      fetch("http://localhost:5000/mysteries")
          .then((response) => response.json())
          .then((result) => setData(result.data));
    }, []);
 
    return (
       <div>
-         <h1>Admin Legends</h1>
-         <h2>Legends</h2>
+         <h1>Admin Mysteries</h1>
+         <h2>Mysteries</h2>
          <div className="flex-table">
             {data.map((legend) => (
                <div className="flex-row" key={legend._id}>
@@ -36,4 +36,4 @@ const AdminLegends = () => {
    );
 };
 
-export default AdminLegends;
+export default AdminMysteries;
