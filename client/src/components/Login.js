@@ -5,7 +5,7 @@ const Login = () => {
       <section className="content">
          <h1 className="page-heading">Login Page</h1>
          <div>
-            <form action="/auth" method="POST">
+            <form action="/login" method="POST">
                <input
                   type="text"
                   className="input-field input-field--login"
@@ -22,7 +22,7 @@ const Login = () => {
                   name="password"
                />
                <br />
-               <input type="submit" className="button center" text="Login" />
+               <button className="button center">Submit</button>
             </form>
          </div>
       </section>
