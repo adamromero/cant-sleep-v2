@@ -6,8 +6,8 @@ const VideosSchema = new mongoose.Schema({
       required: [true],
    },
    thumbnail: {
-      data: Buffer,
-      ContentType: String,
+      type: String,
+      required: [true],
    },
    urlId: {
       type: String,

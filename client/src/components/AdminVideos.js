@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 const AdminVideos = () => {
    const [data, setData] = useState([]);
    const [title, setTitle] = useState("");
+   const [thumbnail, setThumbnail] = useState("");
    const [urlId, setUrlId] = useState("");
    const [message, setMessage] = useState("");
 
@@ -16,18 +17,20 @@ const AdminVideos = () => {
    const addEntry = async (e) => {
       e.preventDefault();
 
+      const formData = new FormData();
+      formData.append("thumbnail", thumbnail);
+      formData.append("title", title);
+      formData.append("urlId", urlId);
+
       try {
          const response = await fetch("http://localhost:5000/videos", {
             method: "POST",
-            body: JSON.stringify({
-               title,
-               urlId,
-            }),
-            headers: { "Content-Type": "application/json" },
+            body: formData,
          });
 
          if (response.status === 200) {
             setTitle("");
+            setThumbnail("");
             setUrlId("");
          } else {
             console.log("400 bad request");
@@ -51,7 +54,9 @@ const AdminVideos = () => {
             {data.map((video) => (
                <div className="flex-row" key={video._id}>
                   <div className="flex-column">{video.title}</div>
-                  <div className="flex-column">{video.thumbnail}</div>
+                  <div className="flex-column">
+                     <img src={video.thumbnail} alt="" />
+                  </div>
                   <div className="flex-column">{video.urlId}</div>
                   <Link key={video._id} to={`/update_video/${video._id}`}>
                      Update
@@ -71,8 +76,13 @@ const AdminVideos = () => {
                onChange={(e) => setTitle(e.target.value)}
                placeholder="Enter title"
             />
-            <label htmlFor="">Image:</label>
-            <input type="file" name="thumbnail" id="" />
+            <input
+               type="file"
+               name="thumbnail"
+               onChange={(e) => {
+                  setThumbnail(e.target.files[0]);
+               }}
+            />
             <label htmlFor="">Video ID:</label>
             <input
                type="text"

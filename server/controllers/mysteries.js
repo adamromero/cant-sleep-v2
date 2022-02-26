@@ -1,4 +1,5 @@
 const asyncHandler = require("express-async-handler");
+const path = require("path");
 
 const Mysteries = require("../models/Mysteries");
 
@@ -35,13 +36,27 @@ const getMystery = asyncHandler(async (req, res, next) => {
 });
 
 const addMysteries = asyncHandler(async (req, res, next) => {
-   if (!req.body.title || !req.body.story) {
+   if (!req.body.title || !req.body.story || !req.files) {
       res.status(400);
       throw new Error("Please add required fields");
    }
 
+   const thumbnail = req.files.thumbnail;
+   const rootFilePath = path.join(__dirname, "../../");
+
+   thumbnail.mv(
+      `${rootFilePath}client/public/uploads/${thumbnail.name}`,
+      (err) => {
+         if (err) {
+            res.status(400);
+            throw new Error(err);
+         }
+      }
+   );
+
    const mystery = await Mysteries.create({
       title: req.body.title,
+      thumbnail: `/uploads/${thumbnail.name}`,
       story: req.body.story,
    });
 

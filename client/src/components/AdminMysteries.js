@@ -4,7 +4,9 @@ import { Link } from "react-router-dom";
 const AdminMysteries = () => {
    const [data, setData] = useState([]);
    const [title, setTitle] = useState("");
+   const [thumbnail, setThumbnail] = useState("");
    const [story, setStory] = useState("");
+   const [message, setMessage] = useState("");
 
    useEffect(() => {
       fetch("http://localhost:5000/mysteries")
@@ -12,21 +14,23 @@ const AdminMysteries = () => {
          .then((result) => setData(result.data));
    }, []);
 
-   const handleSubmit = async (e) => {
+   const addEntry = async (e) => {
       e.preventDefault();
+
+      const formData = new FormData();
+      formData.append("thumbnail", thumbnail);
+      formData.append("title", title);
+      formData.append("story", story);
 
       try {
          const response = await fetch("http://localhost:5000/mysteries", {
             method: "POST",
-            body: JSON.stringify({
-               title,
-               story,
-            }),
-            headers: { "Content-Type": "application/json" },
+            body: formData,
          });
 
          if (response.status === 200) {
             setTitle("");
+            setThumbnail("");
             setStory("");
          } else {
             console.log("400 bad request");
@@ -34,6 +38,12 @@ const AdminMysteries = () => {
       } catch (error) {
          console.error(error);
       }
+   };
+
+   const deleteEntry = (id) => {
+      fetch(`http://localhost:5000/mysteries/${id}`, {
+         method: "DELETE",
+      }).then(() => setMessage("Entry deleted"));
    };
 
    return (
@@ -44,7 +54,9 @@ const AdminMysteries = () => {
             {data.map((mystery) => (
                <div className="flex-row" key={mystery._id}>
                   <div className="flex-column">{mystery.title}</div>
-                  <div className="flex-column">{mystery.thumbnail}</div>
+                  <div className="flex-column">
+                     <img src={mystery.thumbnail} alt="" />
+                  </div>
                   <div className="flex-column">{mystery.story}</div>
                   <Link key={mystery._id} to={`/update_mystery/${mystery._id}`}>
                      Update
@@ -55,8 +67,9 @@ const AdminMysteries = () => {
                </div>
             ))}
          </div>
+         <div>{message}</div>
 
-         <form className="admin-form" onSubmit={handleSubmit}>
+         <form className="admin-form" onSubmit={addEntry}>
             <label htmlFor="">Title:</label>
             <input
                type="text"
@@ -65,8 +78,13 @@ const AdminMysteries = () => {
                onChange={(e) => setTitle(e.target.value)}
                placeholder="Enter title"
             />
-            <label htmlFor="">Image:</label>
-            <input type="file" name="thumbnail" id="" />
+            <input
+               type="file"
+               name="thumbnail"
+               onChange={(e) => {
+                  setThumbnail(e.target.files[0]);
+               }}
+            />
             <label htmlFor="">Story:</label>
             <textarea
                rows="6"

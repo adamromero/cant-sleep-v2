@@ -6,8 +6,8 @@ const MysteriesSchema = new mongoose.Schema({
       required: [true],
    },
    thumbnail: {
-      data: Buffer,
-      ContentType: String,
+      type: String,
+      required: [true],
    },
    story: {
       type: String,

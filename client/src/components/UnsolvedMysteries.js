@@ -68,11 +68,10 @@ const UnsolvedMysteries = () => {
                   {modalContent.title}
                </h2>
                <div className="story-images">
-                  <img className="text-content__image_1 center" src="" />
-               </div>
-               <div className="content-item__controls">
-                  <input className="button" type="button" value="Play" />
-                  <input className="button" type="button" value="Stop" />
+                  <img
+                     className="text-content__image_1 center"
+                     src={modalContent.thumbnail}
+                  />
                </div>
                <div className="text-content__story">
                   <div>

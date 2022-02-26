@@ -1,4 +1,5 @@
 const asyncHandler = require("express-async-handler");
+const path = require("path");
 
 const Videos = require("../models/Videos");
 
@@ -35,13 +36,27 @@ const getVideo = asyncHandler(async (req, res, next) => {
 });
 
 const addVideos = asyncHandler(async (req, res, next) => {
-   if (!req.body.title || !req.body.urlId) {
+   if (!req.body.title || !req.body.urlId || !req.files) {
       res.status(400);
       throw new Error("Please add required fields");
    }
 
+   const thumbnail = req.files.thumbnail;
+   const rootFilePath = path.join(__dirname, "../../");
+
+   thumbnail.mv(
+      `${rootFilePath}client/public/uploads/${thumbnail.name}`,
+      (err) => {
+         if (err) {
+            res.status(400);
+            throw new Error(err);
+         }
+      }
+   );
+
    const video = await Videos.create({
       title: req.body.title,
+      thumbnail: `/uploads/${thumbnail.name}`,
       urlId: req.body.urlId,
    });
 

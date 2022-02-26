@@ -14,7 +14,7 @@ const AdminLegends = () => {
          .then((result) => setData(result.data));
    }, []);
 
-   const handleSubmit = async (e) => {
+   const addEntry = async (e) => {
       e.preventDefault();
 
       const formData = new FormData();
@@ -70,7 +70,7 @@ const AdminLegends = () => {
          </div>
          <div>{message}</div>
 
-         <form className="admin-form" onSubmit={handleSubmit}>
+         <form className="admin-form" onSubmit={addEntry}>
             <label htmlFor="">Title:</label>
             <input
                type="text"
