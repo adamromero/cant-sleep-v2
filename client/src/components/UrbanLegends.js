@@ -66,16 +66,11 @@ const UrbanLegends = () => {
                <h2 className="content-item__heading text-center">
                   {modalContent.title}
                </h2>
-
                <div className="story-images">
                   <img
                      className="text-content__image_1 center"
                      src={modalContent.thumbnail}
                   />
-               </div>
-               <div className="content-item__controls">
-                  <input className="button" type="button" value="Play" />
-                  <input className="button" type="button" value="Stop" />
                </div>
                <div className="text-content__story">
                   <div>

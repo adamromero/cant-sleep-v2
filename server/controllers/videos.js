@@ -19,6 +19,21 @@ const getVideos = asyncHandler(async (req, res, next) => {
    }
 });
 
+const getVideo = asyncHandler(async (req, res, next) => {
+   const video = await Videos.findById(req.params.id);
+
+   if (!video) {
+      res.status(400);
+      throw new Error("video not found");
+   }
+
+   return res.status(209).json({
+      success: true,
+      count: video.length,
+      data: video,
+   });
+});
+
 const addVideos = asyncHandler(async (req, res, next) => {
    if (!req.body.title || !req.body.urlId) {
       res.status(400);
@@ -67,6 +82,7 @@ const deleteVideos = asyncHandler(async (req, res, next) => {
 
 module.exports = {
    getVideos,
+   getVideo,
    addVideos,
    updateVideos,
    deleteVideos,

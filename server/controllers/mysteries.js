@@ -19,6 +19,21 @@ const getMysteries = asyncHandler(async (req, res, next) => {
    }
 });
 
+const getMystery = asyncHandler(async (req, res, next) => {
+   const mystery = await Mysteries.findById(req.params.id);
+
+   if (!mystery) {
+      res.status(400);
+      throw new Error("Mystery not found");
+   }
+
+   return res.status(209).json({
+      success: true,
+      count: mystery.length,
+      data: mystery,
+   });
+});
+
 const addMysteries = asyncHandler(async (req, res, next) => {
    if (!req.body.title || !req.body.story) {
       res.status(400);
@@ -67,6 +82,7 @@ const deleteMysteries = asyncHandler(async (req, res, next) => {
 
 module.exports = {
    getMysteries,
+   getMystery,
    addMysteries,
    updateMysteries,
    deleteMysteries,

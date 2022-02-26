@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Modal from "react-modal";
+import YouTubeEmbed from "./YoutubeEmbed";
 
 const customStyles = {
    content: {
@@ -62,10 +63,8 @@ const WeirdVideos = () => {
             style={customStyles}
          >
             <button onClick={closeModal}>close</button>
-            <div
-               className="content-item__video"
-               data-video={modalContent.urlId}
-            ></div>
+
+            <YouTubeEmbed videoId={modalContent.urlId} />
          </Modal>
       </section>
    );

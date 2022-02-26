@@ -1,6 +1,7 @@
 const express = require("express");
 var cors = require("cors");
 const dotenv = require("dotenv");
+const fileUpload = require("express-fileupload");
 const app = express();
 const connectDB = require("./config/db");
 
@@ -8,7 +9,9 @@ dotenv.config({ path: "./config/config.env" });
 connectDB();
 
 app.use(cors());
+app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use(fileUpload());
 
 app.use("/legends", require("./routes/legends"));
 app.use("/mysteries", require("./routes/mysteries"));

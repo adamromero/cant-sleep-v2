@@ -887,14 +887,6 @@ h2 {
   }
 }
 
-.responsive-video {
-  position: relative;
-  padding-bottom: 56.25%;
-  /* 16:9 */
-  padding-top: 25px;
-  height: 0;
-}
-
 .modal-close {
   text-align: center;
   font-size: 2rem;
@@ -991,6 +983,13 @@ h2 {
 }
 
 .iframe-content {
+  overflow: hidden;
+  padding-bottom: 56.25%;
+  position: relative;
+  height: 0;
+}
+
+.iframe-content iframe {
   position: absolute;
   top: 0;
   left: 0;
