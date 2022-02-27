@@ -62,7 +62,9 @@ const UnsolvedMysteries = () => {
             onRequestClose={closeModal}
             style={customStyles}
          >
-            <button onClick={closeModal}>close</button>
+            <button className="modal-close" onClick={closeModal}>
+               Exit
+            </button>
             <div className="content-item__source text-content">
                <h2 className="content-item__heading text-center">
                   {modalContent.title}

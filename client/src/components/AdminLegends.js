@@ -48,23 +48,36 @@ const AdminLegends = () => {
    };
 
    return (
-      <div>
-         <h1>Admin Legends</h1>
+      <div className="admin">
+         <h1 className="text-center">Admin Legends</h1>
          <h2>Legends</h2>
          <div className="flex-table">
             {data.map((legend) => (
                <div className="flex-row" key={legend._id}>
-                  <div className="flex-column">{legend.title}</div>
+                  <div className="flex-column flex-column--title">
+                     {legend.title}
+                  </div>
                   <div className="flex-column">
                      <img src={legend.thumbnail} alt="" />
                   </div>
-                  <div className="flex-column">{legend.story}</div>
-                  <Link key={legend._id} to={`/update_legend/${legend._id}`}>
-                     Update
-                  </Link>
-                  <button onClick={() => deleteEntry(legend._id)}>
-                     Delete
-                  </button>
+                  <div className="flex-column flex-column--truncate">
+                     {legend.story}
+                  </div>
+                  <div className="admin-update-row">
+                     <Link
+                        className="admin-update"
+                        key={legend._id}
+                        to={`/update_legend/${legend._id}`}
+                     >
+                        Update
+                     </Link>
+                     <button
+                        className="admin-delete"
+                        onClick={() => deleteEntry(legend._id)}
+                     >
+                        Delete
+                     </button>
+                  </div>
                </div>
             ))}
          </div>
@@ -73,6 +86,7 @@ const AdminLegends = () => {
          <form className="admin-form" onSubmit={addEntry}>
             <label htmlFor="">Title:</label>
             <input
+               className="admin-form__field"
                type="text"
                name="title"
                value={title}
@@ -82,18 +96,24 @@ const AdminLegends = () => {
             <input
                type="file"
                name="thumbnail"
+               id="file-upload"
                onChange={(e) => {
                   setThumbnail(e.target.files[0]);
                }}
             />
+            <label htmlFor="file-upload" className="admin-form__upload">
+               Choose File
+            </label>
             <label htmlFor="">Story:</label>
             <textarea
-               rows="6"
+               className="admin-form__textarea"
+               rows="15"
                name="story"
+               placeholder="Start writing a story..."
                value={story}
                onChange={(e) => setStory(e.target.value)}
             />
-            <button className="admin-button">Submit</button>
+            <button className="admin-form__submit">Submit</button>
          </form>
       </div>
    );

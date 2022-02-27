@@ -62,7 +62,9 @@ const WeirdVideos = () => {
             onRequestClose={closeModal}
             style={customStyles}
          >
-            <button onClick={closeModal}>close</button>
+            <button className="modal-close" onClick={closeModal}>
+               Exit
+            </button>
 
             <YouTubeEmbed videoId={modalContent.urlId} />
          </Modal>

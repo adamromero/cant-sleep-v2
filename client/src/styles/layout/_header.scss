@@ -88,6 +88,26 @@
    text-transform: uppercase;
 }
 
+.input-field {
+   //margin: 0 auto 8rem;
+   display: block;
+   max-width: 50rem;
+   width: 100%;
+   padding: 0.8rem;
+   background: black;
+   border: 0.2rem $light-purple solid;
+   border-radius: 0.2rem;
+   outline-color: $light-purple;
+   color: $light-gray;
+   letter-spacing: 0.1rem;
+   box-sizing: border-box;
+
+   &::placeholder {
+      color: $light-gray;
+      letter-spacing: 0.1rem;
+   }
+}
+
 .input-field--login {
    margin: auto;
 }

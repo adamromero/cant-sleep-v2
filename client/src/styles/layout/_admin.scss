@@ -1,11 +1,6 @@
-.admin-content {
-   text-align: center;
-}
-
-.admin-content__link {
-   display: block;
-   font-size: 2.5rem;
-   margin: 2rem 0;
+.admin {
+   max-width: 960px;
+   margin: 0 auto 30px;
 }
 
 .admin-table {
@@ -15,6 +10,39 @@
    td {
       width: 20%;
    }
+}
+
+.flex-table {
+   max-width: 960px;
+   margin: 0 0 30px;
+
+   .flex-row {
+      display: flex;
+      flex-wrap: wrap;
+      margin: 0 0 4rem;
+   }
+   .flex-column {
+      box-sizing: border-box;
+      flex-grow: 1;
+      width: 33.33%;
+      padding: 0.8em 1.2em;
+      overflow: hidden;
+      border: 1px solid white;
+      align-items: flex-start;
+      display: flex;
+      height: 300px;
+   }
+}
+
+.flex-column--title {
+   font-size: 2rem;
+}
+
+.flex-column--truncate {
+   text-overflow: ellipsis;
+   display: -webkit-box;
+   -webkit-line-clamp: 10;
+   -webkit-box-orient: vertical;
 }
 
 .admin-table__row {
@@ -36,13 +64,6 @@
    width: 100%;
 }
 
-.admin-form {
-   display: flex;
-   flex-direction: column;
-   width: 400px;
-   padding: 2.5rem 0 0;
-}
-
 .admin-button {
    background: $light-purple;
    color: black;
@@ -52,9 +73,84 @@
    cursor: pointer;
 }
 
-.admin-content__category {
-   @media (min-width: 40.1em) {
-      display: flex;
-      justify-content: space-evenly;
+.admin-form {
+   display: flex;
+   flex-direction: column;
+   max-width: 50rem;
+   padding: 2.5rem 0 0;
+   gap: 1.5rem;
+}
+
+.admin-form__field {
+   display: block;
+   max-width: 50rem;
+   width: 100%;
+   padding: 0.8rem;
+   background: black;
+   border: 0.2rem $light-purple solid;
+   border-radius: 0.2rem;
+   outline-color: $light-purple;
+   color: $light-gray;
+   letter-spacing: 0.1rem;
+   box-sizing: border-box;
+
+   &::placeholder {
+      color: $light-gray;
+      letter-spacing: 0.1rem;
    }
+}
+
+input[type="file"]:focus-visible {
+   & + .admin-form__upload {
+      background: $light-gray;
+   }
+}
+
+.admin-form__upload {
+   background: #ad8eda;
+   color: black;
+   font-size: 1.6rem;
+   padding: 1.6rem;
+   max-width: 10rem;
+   text-align: center;
+   cursor: pointer;
+   transition: background 0.2s ease-in-out;
+
+   &:hover {
+      background: $light-gray;
+   }
+}
+
+.admin-form__textarea {
+   border: 0.2rem $light-purple solid;
+   background: black;
+   color: $light-gray;
+}
+
+.admin-form__submit {
+   background: $light-purple;
+   color: black;
+   border: 0;
+   padding: 0.8rem 2rem;
+   font-size: 1.6rem;
+   cursor: pointer;
+}
+
+.admin-update-row {
+   display: flex;
+   gap: 10px;
+   margin: 1rem 0 0;
+}
+
+.admin-update {
+   background: $light-gray;
+   color: black;
+   padding: 2rem 4rem;
+}
+
+.admin-delete {
+   background: $light-purple;
+   padding: 2rem 4rem;
+   cursor: pointer;
+   border: 0;
 }

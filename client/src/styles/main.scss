@@ -1,10 +1,11 @@
 @import "base/normalize";
 @import "base/variables";
 @import "base/base";
-@import "component/modules";
-@import "component/grid";
+@import "component/utils";
 @import "component/modal";
+@import "layout/grid";
 @import "layout/content";
 @import "layout/navigation";
 @import "layout/table";
 @import "layout/admin";
+@import "layout/admin-panel";

@@ -31,6 +31,7 @@ const Login = () => {
 
          if (response.status === 200) {
             setCredentials(initialState);
+            navigate("/Admin");
          } else {
             console.log("400 bad request");
          }

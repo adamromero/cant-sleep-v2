@@ -61,20 +61,24 @@ const UrbanLegends = () => {
             onRequestClose={closeModal}
             style={customStyles}
          >
-            <button onClick={closeModal}>close</button>
+            <button className="modal-close" onClick={closeModal}>
+               Exit
+            </button>
             <div className="content-item__source text-content">
                <h2 className="content-item__heading text-center">
                   {modalContent.title}
                </h2>
-               <div className="story-images">
-                  <img
-                     className="text-content__image_1 center"
-                     src={modalContent.thumbnail}
-                  />
-               </div>
-               <div className="text-content__story">
-                  <div>
-                     <p>{modalContent.story}</p>
+               <div className="content-item__body">
+                  <div className="story-images">
+                     <img
+                        className="text-content__image_1 center"
+                        src={modalContent.thumbnail}
+                     />
+                  </div>
+                  <div className="text-content__story">
+                     <div>
+                        <p>{modalContent.story}</p>
+                     </div>
                   </div>
                </div>
             </div>

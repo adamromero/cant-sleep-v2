@@ -3,9 +3,9 @@ import React from "react";
 const YouTubeEmbed = ({ videoId }) => (
    <div className="iframe-content">
       <iframe
-         src={`https://www.youtube.com/embed/${videoId}?autoplay=1`}
+         src={`https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0`}
          frameBorder="0"
-         allow="autoplay"
+         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
          allowFullScreen
       ></iframe>
    </div>

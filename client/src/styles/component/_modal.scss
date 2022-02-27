@@ -10,3 +10,17 @@
 .ReactModal__Overlay--before-close {
    opacity: 0;
 }
+
+.modal-close {
+   display: block;
+   font-size: 2rem;
+   text-align: center;
+   text-transform: uppercase;
+   margin: 2rem auto;
+   cursor: pointer;
+   font-weight: bold;
+   background: black;
+   color: #ff3d3d;
+   border: 2px solid #ff3d3d;
+   max-width: 5.5rem;
+}
