@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const AdminMysteries = () => {
    const [data, setData] = useState([]);
@@ -7,11 +7,16 @@ const AdminMysteries = () => {
    const [thumbnail, setThumbnail] = useState("");
    const [story, setStory] = useState("");
    const [message, setMessage] = useState("");
+   const navigate = useNavigate();
 
    useEffect(() => {
-      fetch("http://localhost:5000/mysteries")
-         .then((response) => response.json())
-         .then((result) => setData(result.data));
+      if (!localStorage.getItem("token")) {
+         navigate("/login");
+      } else {
+         fetch("http://localhost:5000/mysteries")
+            .then((response) => response.json())
+            .then((result) => setData(result.data));
+      }
    }, []);
 
    const addEntry = async (e) => {

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const AdminVideos = () => {
    const [data, setData] = useState([]);
@@ -7,11 +7,16 @@ const AdminVideos = () => {
    const [thumbnail, setThumbnail] = useState("");
    const [urlId, setUrlId] = useState("");
    const [message, setMessage] = useState("");
+   const navigate = useNavigate();
 
    useEffect(() => {
-      fetch("http://localhost:5000/videos")
-         .then((response) => response.json())
-         .then((result) => setData(result.data));
+      if (!localStorage.getItem("token")) {
+         navigate("/login");
+      } else {
+         fetch("http://localhost:5000/videos")
+            .then((response) => response.json())
+            .then((result) => setData(result.data));
+      }
    }, []);
 
    const addEntry = async (e) => {
@@ -57,7 +62,6 @@ const AdminVideos = () => {
                   <div className="flex-column">
                      <img src={video.thumbnail} alt="" />
                   </div>
-                  <div className="flex-column">{video.urlId}</div>
                   <Link key={video._id} to={`/update_video/${video._id}`}>
                      Update
                   </Link>

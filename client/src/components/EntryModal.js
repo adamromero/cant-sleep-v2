@@ -1,22 +1,32 @@
-import React, { useState, useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
+import React, { useState } from "react";
+import Modal from "react-modal";
 
-const UpdateLegend = () => {
-   const { id } = useParams();
+const customStyles = {
+   content: {
+      top: "0",
+      left: "0",
+      right: "0",
+      bottom: "0",
+      border: "none",
+      background: "#000",
+      maxWidth: "500px",
+      height: "500px",
+      margin: "auto",
+   },
+   overlay: { zIndex: 1000 },
+};
 
-   const [data, setData] = useState({ title: "", thumbnail: "", story: "" });
+const EntryModal = ({ entry, setEntry, isOpen, setEntryIsOpen }) => {
    const [message, setMessage] = useState("");
 
-   const { title, thumbnail, story } = data;
+   const { title, thumbnail, story } = entry;
 
-   useEffect(() => {
-      fetch(`http://localhost:5000/legends/${id}`)
-         .then((response) => response.json())
-         .then((result) => setData(result.data))
-         .catch((error) => console.error(error));
-   }, []);
+   const closeModal = () => {
+      setEntryIsOpen(false);
+   };
 
    const updateEntry = (e) => {
+      //TODO: change this code to POST depending on adding or updating data
       e.preventDefault();
 
       fetch(`http://localhost:5000/legends/${id}`, {
@@ -34,16 +44,19 @@ const UpdateLegend = () => {
    const onChange = (e) => {
       const { name, value } = e.target;
 
-      setData((prevState) => ({
+      setEntry((prevState) => ({
          ...prevState,
          [name]: value,
       }));
    };
 
    return (
-      <div>
-         <h1>Update Legend</h1>
-         <Link to="/admin_legends">Back</Link> <Link to="/admin">Admin</Link>
+      <Modal
+         isOpen={isOpen}
+         closeTimeoutMS={500}
+         onRequestClose={closeModal}
+         style={customStyles}
+      >
          <form className="admin-form" onSubmit={updateEntry}>
             <label htmlFor="">Title:</label>
             <input
@@ -65,8 +78,8 @@ const UpdateLegend = () => {
             <button className="admin-button">Submit</button>
          </form>
          <div>{message}</div>
-      </div>
+      </Modal>
    );
 };
 
-export default UpdateLegend;
+export default EntryModal;

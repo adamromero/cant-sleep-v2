@@ -75,7 +75,7 @@ const UrbanLegends = () => {
                         src={modalContent.thumbnail}
                      />
                   </div>
-                  <div className="text-content__story">
+                  <div className="text-content__story" tabIndex="0">
                      <div>
                         <p>{modalContent.story}</p>
                      </div>
