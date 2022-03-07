@@ -21,55 +21,27 @@ const customStyles = {
 const AdminLegends = () => {
    const [data, setData] = useState([]);
    const [entry, setEntry] = useState([]);
-   const [title, setTitle] = useState("");
-   const [thumbnail, setThumbnail] = useState("");
-   const [thumbnailTitle, setThumbnailTitle] = useState("");
-   const [story, setStory] = useState("");
    const [message, setMessage] = useState("");
    const [modalIsOpen, setModalIsOpen] = useState(false);
    const [entryIsOpen, setEntryIsOpen] = useState(false);
    const [deleteEntryId, setDeleteEntryId] = useState("");
+   const [isNewEntry, setIsNewEntry] = useState(false);
    const navigate = useNavigate();
+
+   const endpoint = "legends";
 
    useEffect(() => {
       if (!localStorage.getItem("token")) {
          navigate("/login");
       } else {
-         fetch("http://localhost:5000/legends")
+         fetch(`http://localhost:5000/${endpoint}`)
             .then((response) => response.json())
             .then((result) => setData(result.data));
       }
    }, []);
 
-   const addEntry = async (e) => {
-      e.preventDefault();
-
-      const formData = new FormData();
-      formData.append("thumbnail", thumbnail);
-      formData.append("title", title);
-      formData.append("story", story);
-
-      try {
-         const response = await fetch("http://localhost:5000/legends", {
-            method: "POST",
-            body: formData,
-         });
-
-         if (response.status === 200) {
-            setTitle("");
-            setThumbnail("");
-            setStory("");
-            console.log("successful upload");
-         } else {
-            console.log("400 bad request");
-         }
-      } catch (error) {
-         console.error(error);
-      }
-   };
-
    const deleteEntry = (id) => {
-      fetch(`http://localhost:5000/legends/${id}`, {
+      fetch(`http://localhost:5000/${endpoint}/${id}`, {
          method: "DELETE",
       }).then(() => setMessage("Entry deleted"));
    };
@@ -87,6 +59,7 @@ const AdminLegends = () => {
 
    const addEntryModal = () => {
       setEntry("");
+      setIsNewEntry(true);
       setEntryIsOpen(true);
    };
 
@@ -100,14 +73,16 @@ const AdminLegends = () => {
             <h1 className="text-center">Urban Legends</h1>
             <h2>Administration</h2>
             <Link className="back-button" to="/admin">
-               Back
+               Admin Home
             </Link>
-            <button
-               className="admin__button admin__button--delete"
-               onClick={() => addEntryModal()}
-            >
-               Add Entry
-            </button>
+            <div>
+               <button
+                  className="admin__button admin__button--delete"
+                  onClick={() => addEntryModal()}
+               >
+                  Add Entry
+               </button>
+            </div>
             <div className="flex-table">
                {data.map((legend) => (
                   <div className="flex-row" key={legend._id}>
@@ -123,14 +98,6 @@ const AdminLegends = () => {
                         </div>
                      </div>
                      <div className="admin-update-row">
-                        {/* <Link
-                           className="admin__button admin__button--update"
-                           key={legend._id}
-                           to={`/update_legend/${legend._id}`}
-                        >
-                           Update
-                        </Link> */}
-
                         <button
                            className="admin__button admin__button--update"
                            onClick={() => openEntryModal(legend._id)}
@@ -148,50 +115,14 @@ const AdminLegends = () => {
                   </div>
                ))}
             </div>
-            <div>{message}</div>
-
-            <form className="admin-form" onSubmit={addEntry}>
-               <label htmlFor="">Title:</label>
-               <input
-                  className="admin-form__field"
-                  type="text"
-                  name="title"
-                  value={title}
-                  onChange={(e) => setTitle(e.target.value)}
-                  placeholder="Enter title"
-               />
-               <input
-                  type="file"
-                  name="thumbnail"
-                  id="file-upload"
-                  onChange={(e) => {
-                     setThumbnail(e.target.files[0]);
-                     setThumbnailTitle(e.target.files[0].name);
-                  }}
-               />
-               <label htmlFor="file-upload" className="admin-form__upload">
-                  Choose File
-               </label>
-               {thumbnailTitle && <label htmlFor="">{thumbnailTitle}</label>}
-               <label htmlFor="">Story:</label>
-               <textarea
-                  className="admin-form__textarea"
-                  rows="15"
-                  name="story"
-                  placeholder="Start writing a story..."
-                  value={story}
-                  onChange={(e) => setStory(e.target.value)}
-               />
-               <button type="submit" className="admin-form__submit">
-                  Submit
-               </button>
-            </form>
          </div>
          <EntryModal
+            endpoint={endpoint}
             entry={entry}
             setEntry={setEntry}
             isOpen={entryIsOpen}
             setEntryIsOpen={setEntryIsOpen}
+            isNewEntry={isNewEntry}
          />
          <Modal
             isOpen={modalIsOpen}
@@ -211,6 +142,7 @@ const AdminLegends = () => {
                   Delete
                </button>
             </div>
+            <div>{message}</div>
          </Modal>
       </>
    );

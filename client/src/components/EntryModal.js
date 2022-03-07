@@ -16,29 +16,65 @@ const customStyles = {
    overlay: { zIndex: 1000 },
 };
 
-const EntryModal = ({ entry, setEntry, isOpen, setEntryIsOpen }) => {
+const EntryModal = ({
+   endpoint,
+   entry,
+   setEntry,
+   isOpen,
+   setEntryIsOpen,
+   isNewEntry,
+}) => {
+   const [thumbnail, setThumbnail] = useState("");
+   const [thumbnailTitle, setThumbnailTitle] = useState("");
    const [message, setMessage] = useState("");
 
-   const { title, thumbnail, story } = entry;
+   const { title, story, urlId } = entry;
 
    const closeModal = () => {
       setEntryIsOpen(false);
    };
 
    const updateEntry = (e) => {
-      //TODO: change this code to POST depending on adding or updating data
       e.preventDefault();
+      if (isNewEntry) {
+         const contentTitle = endpoint === "videos" ? "urlId" : "story";
+         const content = endpoint === "videos" ? urlId : story;
 
-      fetch(`http://localhost:5000/legends/${id}`, {
-         method: "PUT",
-         body: JSON.stringify({
-            title,
-            story,
-         }),
-         headers: { "Content-Type": "application/json" },
-      })
-         .then(() => setMessage("Updated"))
-         .catch((error) => console.error(error));
+         const formData = new FormData();
+         formData.append("thumbnail", thumbnail);
+         formData.append("title", title);
+         formData.append(contentTitle, content);
+
+         try {
+            const response = fetch(`http://localhost:5000/${endpoint}`, {
+               method: "POST",
+               body: formData,
+            });
+
+            if (response.status === 200) {
+               setTitle("");
+               setThumbnail("");
+               setThumbnailTitle("");
+               setStory("");
+               console.log("successful upload");
+            } else {
+               console.log("400 bad request");
+            }
+         } catch (error) {
+            console.error(error);
+         }
+      } else {
+         fetch(`http://localhost:5000/${endpoint}/${entry._id}`, {
+            method: "PUT",
+            body: JSON.stringify({
+               title,
+               story,
+            }),
+            headers: { "Content-Type": "application/json" },
+         })
+            .then(() => setMessage("Updated"))
+            .catch((error) => console.error(error));
+      }
    };
 
    const onChange = (e) => {
@@ -60,22 +96,50 @@ const EntryModal = ({ entry, setEntry, isOpen, setEntryIsOpen }) => {
          <form className="admin-form" onSubmit={updateEntry}>
             <label htmlFor="">Title:</label>
             <input
+               className="admin-form__field"
                type="text"
                name="title"
                value={title}
                onChange={(e) => onChange(e)}
                placeholder="Enter title"
             />
-            <label htmlFor="">Image:</label>
-            <input type="file" name="thumbnail" id="" />
-            <label htmlFor="">Story:</label>
-            <textarea
-               rows="6"
-               name="story"
-               value={story}
-               onChange={(e) => onChange(e)}
+            <input
+               type="file"
+               name="thumbnail"
+               id="file-upload"
+               onChange={(e) => {
+                  onChange(e);
+                  setThumbnail(e.target.files[0]);
+                  setThumbnailTitle(e.target.files[0].name);
+               }}
             />
-            <button className="admin-button">Submit</button>
+            <label htmlFor="file-upload" className="admin-form__upload">
+               Choose File
+            </label>
+            {thumbnailTitle && <label htmlFor="">{thumbnailTitle}</label>}
+            <label htmlFor="">
+               {endpoint === "videos" ? "Video ID" : "Story"}:
+            </label>
+            {endpoint === "videos" ? (
+               <input
+                  className="admin-form__field"
+                  type="text"
+                  name="urlId"
+                  value={urlId}
+                  onChange={(e) => onChange(e)}
+                  placeholder="Enter ID"
+               />
+            ) : (
+               <textarea
+                  className="admin-form__textarea"
+                  rows="8"
+                  name="story"
+                  value={story}
+                  onChange={(e) => onChange(e)}
+               />
+            )}
+
+            <button className="admin-form__submit">Submit</button>
          </form>
          <div>{message}</div>
       </Modal>

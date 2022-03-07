@@ -1,105 +1,147 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import Modal from "react-modal";
+import EntryModal from "./EntryModal";
+
+const customStyles = {
+   content: {
+      top: "0",
+      left: "0",
+      right: "0",
+      bottom: "0",
+      border: "none",
+      background: "#000",
+      maxWidth: "500px",
+      height: "200px",
+      margin: "auto",
+   },
+   overlay: { zIndex: 1000 },
+};
 
 const AdminMysteries = () => {
    const [data, setData] = useState([]);
-   const [title, setTitle] = useState("");
-   const [thumbnail, setThumbnail] = useState("");
-   const [story, setStory] = useState("");
+   const [entry, setEntry] = useState([]);
    const [message, setMessage] = useState("");
+   const [modalIsOpen, setModalIsOpen] = useState(false);
+   const [entryIsOpen, setEntryIsOpen] = useState(false);
+   const [deleteEntryId, setDeleteEntryId] = useState("");
+   const [isNewEntry, setIsNewEntry] = useState(false);
    const navigate = useNavigate();
+
+   const endpoint = "mysteries";
 
    useEffect(() => {
       if (!localStorage.getItem("token")) {
          navigate("/login");
       } else {
-         fetch("http://localhost:5000/mysteries")
+         fetch(`http://localhost:5000/${endpoint}`)
             .then((response) => response.json())
             .then((result) => setData(result.data));
       }
    }, []);
 
-   const addEntry = async (e) => {
-      e.preventDefault();
-
-      const formData = new FormData();
-      formData.append("thumbnail", thumbnail);
-      formData.append("title", title);
-      formData.append("story", story);
-
-      try {
-         const response = await fetch("http://localhost:5000/mysteries", {
-            method: "POST",
-            body: formData,
-         });
-
-         if (response.status === 200) {
-            setTitle("");
-            setThumbnail("");
-            setStory("");
-         } else {
-            console.log("400 bad request");
-         }
-      } catch (error) {
-         console.error(error);
-      }
-   };
-
    const deleteEntry = (id) => {
-      fetch(`http://localhost:5000/mysteries/${id}`, {
+      fetch(`http://localhost:5000/${endpoint}/${id}`, {
          method: "DELETE",
       }).then(() => setMessage("Entry deleted"));
    };
 
-   return (
-      <div>
-         <h1>Admin Mysteries</h1>
-         <h2>Mysteries</h2>
-         <div className="flex-table">
-            {data.map((mystery) => (
-               <div className="flex-row" key={mystery._id}>
-                  <div className="flex-column">{mystery.title}</div>
-                  <div className="flex-column">
-                     <img src={mystery.thumbnail} alt="" />
-                  </div>
-                  <div className="flex-column">{mystery.story}</div>
-                  <Link key={mystery._id} to={`/update_mystery/${mystery._id}`}>
-                     Update
-                  </Link>
-                  <button onClick={() => deleteEntry(mystery._id)}>
-                     Delete
-                  </button>
-               </div>
-            ))}
-         </div>
-         <div>{message}</div>
+   const deleteEntryModal = (id) => {
+      setModalIsOpen(true);
+      setDeleteEntryId(id);
+   };
 
-         <form className="admin-form" onSubmit={addEntry}>
-            <label htmlFor="">Title:</label>
-            <input
-               type="text"
-               name="title"
-               value={title}
-               onChange={(e) => setTitle(e.target.value)}
-               placeholder="Enter title"
-            />
-            <input
-               type="file"
-               name="thumbnail"
-               onChange={(e) => {
-                  setThumbnail(e.target.files[0]);
-               }}
-            />
-            <label htmlFor="">Story:</label>
-            <textarea
-               rows="6"
-               name="story"
-               value={story}
-               onChange={(e) => setStory(e.target.value)}
-            />
-            <button className="admin-button">Submit</button>
-         </form>
-      </div>
+   const openEntryModal = (id) => {
+      const entry = data.filter((entry) => entry._id === id)[0];
+      setEntryIsOpen(true);
+      setEntry(entry);
+   };
+
+   const addEntryModal = () => {
+      setEntry("");
+      setIsNewEntry(true);
+      setEntryIsOpen(true);
+   };
+
+   const closeModal = () => {
+      setModalIsOpen(false);
+   };
+
+   return (
+      <>
+         <div className="admin">
+            <h1 className="text-center">Unsolved Mysteries</h1>
+            <h2>Administration</h2>
+            <Link className="back-button" to="/admin">
+               Admin Home
+            </Link>
+            <div>
+               <button
+                  className="admin__button admin__button--delete"
+                  onClick={() => addEntryModal()}
+               >
+                  Add Entry
+               </button>
+            </div>
+            <div className="flex-table">
+               {data.map((mystery) => (
+                  <div className="flex-row" key={mystery._id}>
+                     <div className="flex-column flex-column--title">
+                        {mystery.title}
+                     </div>
+                     <div className="flex-column flex-column--image">
+                        <img src={mystery.thumbnail} alt={mystery.title} />
+                     </div>
+                     <div className="flex-column flex-column--truncate">
+                        <div className="flex-story">{mystery.story}</div>
+                     </div>
+                     <div className="admin-update-row">
+                        <button
+                           className="admin__button admin__button--update"
+                           onClick={() => openEntryModal(mystery._id)}
+                        >
+                           Update
+                        </button>
+                        <button
+                           className="admin__button admin__button--delete"
+                           onClick={() => deleteEntryModal(mystery._id)}
+                        >
+                           Delete
+                        </button>
+                     </div>
+                  </div>
+               ))}
+            </div>
+         </div>
+         <EntryModal
+            endpoint={endpoint}
+            entry={entry}
+            setEntry={setEntry}
+            isOpen={entryIsOpen}
+            setEntryIsOpen={setEntryIsOpen}
+            isNewEntry={isNewEntry}
+         />
+         <Modal
+            isOpen={modalIsOpen}
+            closeTimeoutMS={500}
+            onRequestClose={closeModal}
+            style={customStyles}
+         >
+            <p>Are you sure you want to delete this entry?</p>
+            <div>
+               <button onClick={closeModal}>Cancel</button>
+               <button
+                  onClick={() => {
+                     deleteEntry(deleteEntryId);
+                     closeModal();
+                  }}
+               >
+                  Delete
+               </button>
+            </div>
+            <div>{message}</div>
+         </Modal>
+      </>
    );
 };
 

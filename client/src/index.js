@@ -15,9 +15,6 @@ import "./styles/main.css";
 import AdminLegends from "./components/AdminLegends";
 import AdminMysteries from "./components/AdminMysteries";
 import AdminVideos from "./components/AdminVideos";
-import UpdateLegend from "./components/UpdateLegend";
-import UpdateMystery from "./components/UpdateMystery";
-import UpdateVideo from "./components/UpdateVideo";
 
 const App = () => {
    return (
@@ -34,9 +31,6 @@ const App = () => {
             <Route path="/admin_legends" element={<AdminLegends />} />
             <Route path="/admin_mysteries" element={<AdminMysteries />} />
             <Route path="/admin_videos" element={<AdminVideos />} />
-            <Route path="/update_legend/:id" element={<UpdateLegend />} />
-            <Route path="/update_mystery/:id" element={<UpdateMystery />} />
-            <Route path="/update_video/:id" element={<UpdateVideo />} />
          </Routes>
       </BrowserRouter>
    );
