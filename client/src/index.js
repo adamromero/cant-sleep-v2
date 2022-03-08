@@ -50,7 +50,7 @@ const App = () => {
 
    return (
       <BrowserRouter>
-         <Navigation />
+         <Navigation loggedIn={localStorage.getItem("token")} />
          <Header />
          <Routes>
             <Route exact path="/" element={<Home />} />
@@ -66,17 +66,7 @@ const App = () => {
                path="/weird_videos"
                element={<WeirdVideos data={videos} />}
             />
-            <Route
-               path="/admin"
-               element={
-                  <Admin
-                     legends={legends}
-                     mysteries={mysteries}
-                     videos={videos}
-                     images={images}
-                  />
-               }
-            />
+            <Route path="/admin" element={<Admin images={images} />} />
             <Route path="/login" element={<Login />} />
 
             <Route

@@ -1226,6 +1226,19 @@ input[type="file"]:focus-visible + .admin-form__upload {
   color: #efecf3;
 }
 
+.admin-form__textarea::-webkit-scrollbar {
+  width: 10px;
+}
+
+.admin-form__textarea::-webkit-scrollbar-track {
+  background: black;
+}
+
+.admin-form__textarea::-webkit-scrollbar-thumb {
+  background: #ad8eda;
+  border-radius: 10px;
+}
+
 .admin-form__submit {
   background: #ad8eda;
   color: black;
