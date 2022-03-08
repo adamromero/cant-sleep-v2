@@ -9,11 +9,14 @@ const customStyles = {
       bottom: "0",
       border: "none",
       background: "#000",
-      maxWidth: "500px",
+      maxWidth: "550px",
       height: "500px",
       margin: "auto",
    },
-   overlay: { zIndex: 1000 },
+   overlay: {
+      background: "rgb(62 62 62 / 75%)",
+      zIndex: 1000,
+   },
 };
 
 const EntryModal = ({
@@ -132,7 +135,7 @@ const EntryModal = ({
             ) : (
                <textarea
                   className="admin-form__textarea"
-                  rows="8"
+                  rows="10"
                   name="story"
                   value={story}
                   onChange={(e) => onChange(e)}

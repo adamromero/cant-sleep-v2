@@ -97,19 +97,11 @@
    width: 100%;
 }
 
-.admin-button {
-   // background: $light-purple;
-   // color: black;
-   // border: 0;
-   // padding: 0.8rem 2rem;
-   // font-size: 1.6rem;
-   // cursor: pointer;
-}
-
 .admin-form {
    display: flex;
    flex-direction: column;
    max-width: 50rem;
+   margin: auto;
    padding: 2.5rem 0 0;
    gap: 1.5rem;
 }
@@ -201,4 +193,20 @@ input[type="file"]:focus-visible {
    &:focus-visible {
       background: lighten($light-purple, 50%);
    }
+}
+.admin__delete-message {
+   font-size: 1.6rem;
+}
+
+.admin__delete-options {
+   display: flex;
+   justify-content: space-evenly;
+   max-width: 345px;
+   margin: auto;
+}
+
+.spinner {
+   display: flex;
+   justify-content: center;
+   align-items: center;
 }

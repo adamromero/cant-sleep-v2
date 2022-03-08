@@ -1,30 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import Modal from "react-modal";
 import EntryModal from "./EntryModal";
-
-const customStyles = {
-   content: {
-      top: "0",
-      left: "0",
-      right: "0",
-      bottom: "0",
-      border: "none",
-      background: "#000",
-      maxWidth: "500px",
-      height: "200px",
-      margin: "auto",
-   },
-   overlay: { zIndex: 1000 },
-};
+import DeleteModal from "./DeleteModal";
 
 const AdminVideos = () => {
    const [data, setData] = useState([]);
    const [entry, setEntry] = useState([]);
-   const [message, setMessage] = useState("");
+   const [entryId, setEntryId] = useState("");
    const [modalIsOpen, setModalIsOpen] = useState(false);
    const [entryIsOpen, setEntryIsOpen] = useState(false);
-   const [deleteEntryId, setDeleteEntryId] = useState("");
    const [isNewEntry, setIsNewEntry] = useState(false);
    const navigate = useNavigate();
 
@@ -40,18 +24,12 @@ const AdminVideos = () => {
       }
    }, []);
 
-   const deleteEntry = (id) => {
-      fetch(`http://localhost:5000/${endpoint}/${id}`, {
-         method: "DELETE",
-      }).then(() => setMessage("Entry deleted"));
-   };
-
    const deleteEntryModal = (id) => {
       setModalIsOpen(true);
-      setDeleteEntryId(id);
+      setEntryId(id);
    };
 
-   const openEntryModal = (id) => {
+   const updateEntryModal = (id) => {
       const entry = data.filter((entry) => entry._id === id)[0];
       setEntryIsOpen(true);
       setEntry(entry);
@@ -95,7 +73,7 @@ const AdminVideos = () => {
                      <div className="admin-update-row">
                         <button
                            className="admin__button admin__button--update"
-                           onClick={() => openEntryModal(video._id)}
+                           onClick={() => updateEntryModal(video._id)}
                         >
                            Update
                         </button>
@@ -118,26 +96,12 @@ const AdminVideos = () => {
             setEntryIsOpen={setEntryIsOpen}
             isNewEntry={isNewEntry}
          />
-         <Modal
+         <DeleteModal
+            endpoint={endpoint}
+            entryId={entryId}
             isOpen={modalIsOpen}
-            closeTimeoutMS={500}
-            onRequestClose={closeModal}
-            style={customStyles}
-         >
-            <p>Are you sure you want to delete this entry?</p>
-            <div>
-               <button onClick={closeModal}>Cancel</button>
-               <button
-                  onClick={() => {
-                     deleteEntry(deleteEntryId);
-                     closeModal();
-                  }}
-               >
-                  Delete
-               </button>
-            </div>
-            <div>{message}</div>
-         </Modal>
+            setModalIsOpen={setModalIsOpen}
+         />
       </>
    );
 };
