@@ -2,54 +2,47 @@ import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import EntryModal from "./EntryModal";
 import DeleteModal from "./DeleteModal";
+import LoadingSpin from "react-loading-spin";
 
-const AdminMysteries = () => {
-   const [data, setData] = useState([]);
+const AdminContent = ({ data, endpoint }) => {
    const [entry, setEntry] = useState([]);
    const [entryId, setEntryId] = useState("");
-   const [modalIsOpen, setModalIsOpen] = useState(false);
-   const [entryIsOpen, setEntryIsOpen] = useState(false);
+   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+   const [entryModalOpen, setEntryModalOpen] = useState(false);
    const [isNewEntry, setIsNewEntry] = useState(false);
-   const navigate = useNavigate();
+   //const [isLoading, setLoading] = useState(true);
 
-   const endpoint = "mysteries";
+   const navigate = useNavigate();
 
    useEffect(() => {
       if (!localStorage.getItem("token")) {
          navigate("/login");
-      } else {
-         fetch(`http://localhost:5000/${endpoint}`)
-            .then((response) => response.json())
-            .then((result) => setData(result.data));
       }
    }, []);
 
    const deleteEntryModal = (id) => {
-      setModalIsOpen(true);
+      setDeleteModalOpen(true);
       setEntryId(id);
    };
 
    const updateEntryModal = (id) => {
       const entry = data.filter((entry) => entry._id === id)[0];
-      setEntryIsOpen(true);
+      setEntryModalOpen(true);
       setEntry(entry);
    };
 
    const addEntryModal = () => {
       setEntry("");
       setIsNewEntry(true);
-      setEntryIsOpen(true);
-   };
-
-   const closeModal = () => {
-      setModalIsOpen(false);
+      setEntryModalOpen(true);
    };
 
    return (
       <>
          <div className="admin">
-            <h1 className="text-center">Unsolved Mysteries</h1>
+            <h1 className="text-center">Urban Legends</h1>
             <h2>Administration</h2>
+
             <Link className="back-button" to="/admin">
                Admin Home
             </Link>
@@ -62,27 +55,32 @@ const AdminMysteries = () => {
                </button>
             </div>
             <div className="flex-table">
-               {data.map((mystery) => (
-                  <div className="flex-row" key={mystery._id}>
-                     <div className="flex-column flex-column--title">
-                        {mystery.title}
-                     </div>
-                     <div className="flex-column flex-column--image">
-                        <img src={mystery.thumbnail} alt={mystery.title} />
-                     </div>
-                     <div className="flex-column flex-column--truncate">
-                        <div className="flex-story">{mystery.story}</div>
+               {data.map((legend) => (
+                  <div className="flex-row" key={legend._id}>
+                     <div className="flex-content">
+                        <div className="flex-column flex-column--title">
+                           {legend.title}
+                        </div>
+                        <div className="flex-column flex-column--image">
+                           <img src={legend.thumbnail} alt={legend.title} />
+                        </div>
+                        {endpoint !== "videos" && (
+                           <div className="flex-column flex-column--truncate">
+                              <div className="flex-story">{legend.story}</div>
+                           </div>
+                        )}
                      </div>
                      <div className="admin-update-row">
                         <button
                            className="admin__button admin__button--update"
-                           onClick={() => updateEntryModal(mystery._id)}
+                           onClick={() => updateEntryModal(legend._id)}
                         >
                            Update
                         </button>
+
                         <button
                            className="admin__button admin__button--delete"
-                           onClick={() => deleteEntryModal(mystery._id)}
+                           onClick={() => deleteEntryModal(legend._id)}
                         >
                            Delete
                         </button>
@@ -95,18 +93,18 @@ const AdminMysteries = () => {
             endpoint={endpoint}
             entry={entry}
             setEntry={setEntry}
-            isOpen={entryIsOpen}
-            setEntryIsOpen={setEntryIsOpen}
+            isOpen={entryModalOpen}
+            setEntryModalOpen={setEntryModalOpen}
             isNewEntry={isNewEntry}
          />
          <DeleteModal
             endpoint={endpoint}
             entryId={entryId}
-            isOpen={modalIsOpen}
-            setModalIsOpen={setModalIsOpen}
+            isOpen={deleteModalOpen}
+            setDeleteModalOpen={setDeleteModalOpen}
          />
       </>
    );
 };
 
-export default AdminMysteries;
+export default AdminContent;

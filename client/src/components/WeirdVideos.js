@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Modal from "react-modal";
 import YouTubeEmbed from "./YoutubeEmbed";
 
@@ -16,10 +16,9 @@ const customStyles = {
 
 Modal.setAppElement("#app");
 
-const WeirdVideos = () => {
+const WeirdVideos = ({ data }) => {
    const [modalIsOpen, setModalIsOpen] = useState(false);
    const [modalContent, setModalContent] = useState({});
-   const [data, setData] = useState([]);
 
    const openModal = (video) => {
       setModalIsOpen(true);
@@ -29,12 +28,6 @@ const WeirdVideos = () => {
    const closeModal = () => {
       setModalIsOpen(false);
    };
-
-   useEffect(() => {
-      fetch("http://localhost:5000/videos")
-         .then((response) => response.json())
-         .then((result) => setData(result.data));
-   }, []);
 
    return (
       <section className="content">

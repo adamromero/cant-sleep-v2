@@ -20,7 +20,7 @@ const customStyles = {
    },
 };
 
-const DeleteModal = ({ endpoint, entryId, isOpen, setModalIsOpen }) => {
+const DeleteModal = ({ endpoint, entryId, isOpen, setDeleteModalOpen }) => {
    const [message, setMessage] = useState("");
 
    const deleteEntry = () => {
@@ -32,7 +32,7 @@ const DeleteModal = ({ endpoint, entryId, isOpen, setModalIsOpen }) => {
    };
 
    const closeModal = () => {
-      setModalIsOpen(false);
+      setDeleteModalOpen(false);
    };
 
    return (

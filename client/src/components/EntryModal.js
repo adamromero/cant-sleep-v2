@@ -24,7 +24,7 @@ const EntryModal = ({
    entry,
    setEntry,
    isOpen,
-   setEntryIsOpen,
+   setEntryModalOpen,
    isNewEntry,
 }) => {
    const [thumbnail, setThumbnail] = useState("");
@@ -34,7 +34,7 @@ const EntryModal = ({
    const { title, story, urlId } = entry;
 
    const closeModal = () => {
-      setEntryIsOpen(false);
+      setEntryModalOpen(false);
    };
 
    const updateEntry = (e) => {
@@ -55,10 +55,8 @@ const EntryModal = ({
             });
 
             if (response.status === 200) {
-               setTitle("");
                setThumbnail("");
                setThumbnailTitle("");
-               setStory("");
                console.log("successful upload");
             } else {
                console.log("400 bad request");
@@ -75,7 +73,11 @@ const EntryModal = ({
             }),
             headers: { "Content-Type": "application/json" },
          })
-            .then(() => setMessage("Updated"))
+            .then(() => {
+               setMessage("Updated");
+               setThumbnail("");
+               setThumbnailTitle("");
+            })
             .catch((error) => console.error(error));
       }
    };
@@ -102,7 +104,7 @@ const EntryModal = ({
                className="admin-form__field"
                type="text"
                name="title"
-               value={title}
+               value={title || ""}
                onChange={(e) => onChange(e)}
                placeholder="Enter title"
             />
@@ -128,7 +130,7 @@ const EntryModal = ({
                   className="admin-form__field"
                   type="text"
                   name="urlId"
-                  value={urlId}
+                  value={urlId || ""}
                   onChange={(e) => onChange(e)}
                   placeholder="Enter ID"
                />
@@ -137,8 +139,9 @@ const EntryModal = ({
                   className="admin-form__textarea"
                   rows="10"
                   name="story"
-                  value={story}
+                  value={story || ""}
                   onChange={(e) => onChange(e)}
+                  placeholder="Start writing a story..."
                />
             )}
 
