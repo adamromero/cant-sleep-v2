@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../contexts/AuthState";
 
-const Navigation = ({ loggedIn }) => {
-   const [isAdmin, setIsAdmin] = useState(loggedIn);
+const Navigation = () => {
+   const { isAuthenticated } = useContext(AuthContext);
 
    return (
       <nav className="mobile-navigation-menu is-open">
@@ -16,7 +17,7 @@ const Navigation = ({ loggedIn }) => {
             <li className="menu-list__item">
                <Link to="/weird_videos">Weird Videos</Link>
             </li>
-            {isAdmin && (
+            {isAuthenticated && (
                <li className="menu-list__item">
                   <Link to="/admin">Admin</Link>
                </li>

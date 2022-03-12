@@ -12,12 +12,20 @@ const userAdmin = asyncHandler(async (req, res) => {
       res.json({
          _id: user.id,
          username: user.username,
+         token: generateToken(user._id),
       });
    } else {
       res.status(400);
       throw new Error("Invalid credentials");
+      //res.status(400).json({ message: "Invalid credentials" });
    }
 });
+
+const generateToken = (id) => {
+   return jwt.sign({ id }, process.env.JWT_SECRET, {
+      //expiresIn: "30d",
+   });
+};
 
 module.exports = {
    userAdmin,

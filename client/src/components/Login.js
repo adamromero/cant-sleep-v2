@@ -1,14 +1,20 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../contexts/AuthState";
 
 const Login = () => {
    const initialState = { username: "", password: "" };
    const [credentials, setCredentials] = useState(initialState);
    const [message, setMessage] = useState("");
-
-   const { username, password } = credentials;
+   const { handleLogin, username, isAuthenticated } = useContext(AuthContext);
 
    const navigate = useNavigate();
+
+   useEffect(() => {
+      if (isAuthenticated || username) {
+         navigate("/admin");
+      }
+   }, [isAuthenticated, username]);
 
    const onChange = (e) => {
       setCredentials((prevState) => ({
@@ -19,27 +25,7 @@ const Login = () => {
 
    const onSubmit = async (e) => {
       e.preventDefault();
-
-      await fetch("http://localhost:5000/login", {
-         method: "POST",
-         body: JSON.stringify({
-            username,
-            password,
-         }),
-         headers: { "Content-Type": "application/json" },
-      })
-         .then((res) => res.json())
-         .then((data) => {
-            if (data.token) {
-               localStorage.setItem("token", data.token);
-               setCredentials(initialState);
-               navigate("/Admin");
-            }
-         })
-         .catch((error) => {
-            console.log(error);
-            //setMessage(error);
-         });
+      handleLogin(credentials);
    };
 
    return (

@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import { AuthContext } from "../contexts/AuthState";
 import { Link, useNavigate } from "react-router-dom";
 import EntryModal from "./EntryModal";
 import DeleteModal from "./DeleteModal";
@@ -12,13 +13,14 @@ const AdminContent = ({ data, endpoint }) => {
    const [isNewEntry, setIsNewEntry] = useState(false);
    //const [isLoading, setLoading] = useState(true);
 
+   const { username } = useContext(AuthContext);
    const navigate = useNavigate();
 
    useEffect(() => {
-      if (!localStorage.getItem("token")) {
+      if (!username) {
          navigate("/login");
       }
-   }, []);
+   }, [username]);
 
    const deleteEntryModal = (id) => {
       setDeleteModalOpen(true);

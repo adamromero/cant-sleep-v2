@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { AuthProvider } from "./contexts/AuthState";
 
 import Navigation from "./components/Navigation";
 import Header from "./components/Header";
@@ -19,6 +20,7 @@ const App = () => {
    const [mysteries, setMysteries] = useState([]);
    const [videos, setVideos] = useState([]);
    const [images, setImages] = useState([]);
+   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
    useEffect(() => {
       Promise.all([
@@ -49,40 +51,44 @@ const App = () => {
    }, []);
 
    return (
-      <BrowserRouter>
-         <Navigation loggedIn={localStorage.getItem("token")} />
-         <Header />
-         <Routes>
-            <Route exact path="/" element={<Home />} />
-            <Route
-               path="/urban_legends"
-               element={<UrbanLegends data={legends} />}
-            />
-            <Route
-               path="/unsolved_mysteries"
-               element={<UnsolvedMysteries data={mysteries} />}
-            />
-            <Route
-               path="/weird_videos"
-               element={<WeirdVideos data={videos} />}
-            />
-            <Route path="/admin" element={<Admin images={images} />} />
-            <Route path="/login" element={<Login />} />
+      <AuthProvider>
+         <BrowserRouter>
+            <Navigation />
+            <Header />
+            <Routes>
+               <Route exact path="/" element={<Home />} />
+               <Route
+                  path="/urban_legends"
+                  element={<UrbanLegends data={legends} />}
+               />
+               <Route
+                  path="/unsolved_mysteries"
+                  element={<UnsolvedMysteries data={mysteries} />}
+               />
+               <Route
+                  path="/weird_videos"
+                  element={<WeirdVideos data={videos} />}
+               />
+               <Route path="/admin" element={<Admin images={images} />} />
+               <Route path="/login" element={<Login />} />
 
-            <Route
-               path="/admin_legends"
-               element={<AdminContent data={legends} endpoint="legends" />}
-            />
-            <Route
-               path="/admin_mysteries"
-               element={<AdminContent data={mysteries} endpoint="mysteries" />}
-            />
-            <Route
-               path="/admin_videos"
-               element={<AdminContent data={videos} endpoint="videos" />}
-            />
-         </Routes>
-      </BrowserRouter>
+               <Route
+                  path="/admin_legends"
+                  element={<AdminContent data={legends} endpoint="legends" />}
+               />
+               <Route
+                  path="/admin_mysteries"
+                  element={
+                     <AdminContent data={mysteries} endpoint="mysteries" />
+                  }
+               />
+               <Route
+                  path="/admin_videos"
+                  element={<AdminContent data={videos} endpoint="videos" />}
+               />
+            </Routes>
+         </BrowserRouter>
+      </AuthProvider>
    );
 };
 

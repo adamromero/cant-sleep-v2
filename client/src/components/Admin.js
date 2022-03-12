@@ -1,40 +1,24 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import jwt_decode from "jwt-decode";
+import { AuthContext } from "../contexts/AuthState";
 
 const Admin = ({ images }) => {
-   const [username, setUsername] = useState("adamromero");
+   const { username, handleLogout } = useContext(AuthContext);
    const navigate = useNavigate();
 
    useEffect(() => {
-      let decodedToken;
-
-      try {
-         if (localStorage.getItem("token")) {
-            decodedToken = jwt_decode(localStorage.getItem("token"));
-         }
-      } catch (error) {
-         console.error(error);
-      }
-
-      if (!decodedToken) {
+      if (!username) {
          navigate("/login");
       }
-   }, []);
+   }, [username]);
 
-   const handleLogOut = () => {
-      if (localStorage.getItem("token")) {
-         localStorage.removeItem("token");
-         navigate("/login");
-      }
-   };
    return (
       <section className="content">
          <h1 className="text-center">Administration Page</h1>
          <div className="admin-content">
             <div>
                <h2>Welcome {username}</h2>
-               <button className="button" onClick={handleLogOut}>
+               <button className="button" onClick={handleLogout}>
                   Log out
                </button>
             </div>
