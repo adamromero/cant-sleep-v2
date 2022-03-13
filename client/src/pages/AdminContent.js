@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useContext } from "react";
 import { AuthContext } from "../contexts/AuthState";
 import { Link, useNavigate } from "react-router-dom";
-import EntryModal from "./EntryModal";
-import DeleteModal from "./DeleteModal";
+import EntryModal from "../components/EntryModal";
+import DeleteModal from "../components/DeleteModal";
 import LoadingSpin from "react-loading-spin";
 
 const AdminContent = ({ data, endpoint }) => {

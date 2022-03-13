@@ -3,24 +3,22 @@ import ReactDOM from "react-dom";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./contexts/AuthState";
 
-import Navigation from "./components/Navigation";
+import Home from "./pages/Home";
+import Admin from "./pages/Admin";
+import AdminContent from "./pages/AdminContent";
+import Login from "./pages/Login";
+
 import Header from "./components/Header";
-import Home from "./components/Home";
-import UrbanLegends from "./components/UrbanLegends";
-import UnsolvedMysteries from "./components/UnsolvedMysteries";
-import WeirdVideos from "./components/WeirdVideos";
-import Admin from "./components/Admin";
-import AdminContent from "./components/AdminContent";
-import Login from "./components/Login";
+import Navigation from "./components/Navigation";
 
 import "./styles/main.css";
+import Presentation from "./pages/Presentation";
 
 const App = () => {
    const [legends, setLegends] = useState([]);
    const [mysteries, setMysteries] = useState([]);
    const [videos, setVideos] = useState([]);
    const [images, setImages] = useState([]);
-   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
    useEffect(() => {
       Promise.all([
@@ -59,15 +57,33 @@ const App = () => {
                <Route exact path="/" element={<Home />} />
                <Route
                   path="/urban_legends"
-                  element={<UrbanLegends data={legends} />}
+                  element={
+                     <Presentation
+                        data={legends}
+                        title="Urban Legends"
+                        isVideo={false}
+                     />
+                  }
                />
                <Route
                   path="/unsolved_mysteries"
-                  element={<UnsolvedMysteries data={mysteries} />}
+                  element={
+                     <Presentation
+                        data={mysteries}
+                        title="Unsolved Mysteries"
+                        isVideo={false}
+                     />
+                  }
                />
                <Route
                   path="/weird_videos"
-                  element={<WeirdVideos data={videos} />}
+                  element={
+                     <Presentation
+                        data={videos}
+                        title="Weird Videos"
+                        isVideo={true}
+                     />
+                  }
                />
                <Route path="/admin" element={<Admin images={images} />} />
                <Route path="/login" element={<Login />} />
