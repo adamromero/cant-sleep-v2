@@ -147,7 +147,7 @@ const EntryModal = ({
 
             <button className="admin-form__submit">Submit</button>
          </form>
-         <div>{message}</div>
+         <div className="admin-message">{message}</div>
       </Modal>
    );
 };
