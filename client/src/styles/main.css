@@ -1117,13 +1117,13 @@ h2 {
 }
 
 .flex-column--image {
-  height: 150px;
+  height: 185px;
   margin: auto;
   display: block;
 }
 
 .flex-column--image img {
-  height: 150px;
+  height: 185px;
   -o-object-fit: cover;
      object-fit: cover;
   width: 100%;

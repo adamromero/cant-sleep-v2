@@ -43,7 +43,7 @@ const Presentation = ({ data, title, isVideo }) => {
                      <h2 className="content-item__title">{entry.title}</h2>
                      <img
                         className="content-item__image"
-                        src={entry.thumbnail}
+                        src={`https://cant-sleep-images.s3.us-west-1.amazonaws.com/${entry.thumbnail}`}
                      />
                   </div>
                </button>
@@ -60,7 +60,7 @@ const Presentation = ({ data, title, isVideo }) => {
             </button>
 
             {isVideo ? (
-               <YouTubeEmbed videoId={modalContent.urlId} />
+               <YouTubeEmbed videoId={modalContent.content} />
             ) : (
                <div className="content-item__source text-content">
                   <h2 className="content-item__heading text-center">
@@ -70,12 +70,12 @@ const Presentation = ({ data, title, isVideo }) => {
                      <div className="story-images">
                         <img
                            className="text-content__image_1 center"
-                           src={modalContent.thumbnail}
+                           src={`https://cant-sleep-images.s3.us-west-1.amazonaws.com/${modalContent.thumbnail}`}
                         />
                      </div>
                      <div className="text-content__story" tabIndex="0">
                         <div>
-                           <p>{modalContent.story}</p>
+                           <p>{modalContent.content}</p>
                         </div>
                      </div>
                   </div>

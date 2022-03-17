@@ -11,6 +11,7 @@ export default (state, action) => {
             isAuthenticated: true,
             username: action.payload.username,
             token: action.payload.token,
+            error: null,
          };
       case "LOGOUT":
          localStorage.removeItem("username");
@@ -20,7 +21,13 @@ export default (state, action) => {
             isAuthenticated: false,
             username: null,
             token: null,
+            error: null,
          };
+
+      case "ERROR":
+         localStorage.removeItem("username");
+         localStorage.removeItem("token");
+
       default:
          return state;
    }

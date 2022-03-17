@@ -36,28 +36,15 @@ const getVideo = asyncHandler(async (req, res, next) => {
 });
 
 const addVideos = asyncHandler(async (req, res, next) => {
-   if (!req.body.title || !req.body.urlId || !req.files) {
+   if (!req.body.title || !req.body.content || !req.body.thumbnail) {
       res.status(400);
       throw new Error("Please add required fields");
    }
 
-   const thumbnail = req.files.thumbnail;
-   const rootFilePath = path.join(__dirname, "../../");
-
-   thumbnail.mv(
-      `${rootFilePath}client/public/uploads/${thumbnail.name}`,
-      (err) => {
-         if (err) {
-            res.status(400);
-            throw new Error(err);
-         }
-      }
-   );
-
    const video = await Videos.create({
       title: req.body.title,
-      thumbnail: `/uploads/${thumbnail.name}`,
-      urlId: req.body.urlId,
+      thumbnail: req.body.thumbnail,
+      content: req.body.content,
    });
 
    res.status(200).json(video);

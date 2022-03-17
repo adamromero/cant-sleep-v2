@@ -9,7 +9,7 @@ const MysteriesSchema = new mongoose.Schema({
       type: String,
       required: [true],
    },
-   story: {
+   content: {
       type: String,
       required: [true],
    },

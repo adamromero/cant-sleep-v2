@@ -9,7 +9,7 @@ const VideosSchema = new mongoose.Schema({
       type: String,
       required: [true],
    },
-   urlId: {
+   content: {
       type: String,
       required: [true],
    },

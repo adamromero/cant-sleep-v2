@@ -29,7 +29,7 @@ const Admin = ({ images }) => {
                   <a className="admin-content__link" href="/admin_legends">
                      {images.legends && (
                         <img
-                           src={images.legends}
+                           src={`https://cant-sleep-images.s3.us-west-1.amazonaws.com/${images.legends}`}
                            alt="Urban Legends"
                            width="150"
                         />
@@ -39,7 +39,7 @@ const Admin = ({ images }) => {
                   <a className="admin-content__link" href="/admin_mysteries">
                      {images.mysteries && (
                         <img
-                           src={images.mysteries}
+                           src={`https://cant-sleep-images.s3.us-west-1.amazonaws.com/${images.mysteries}`}
                            alt="Unsolved Mysteries"
                            width="150"
                         />
@@ -49,7 +49,7 @@ const Admin = ({ images }) => {
                   <a className="admin-content__link" href="/admin_videos">
                      {images.videos && (
                         <img
-                           src={images.videos}
+                           src={`https://cant-sleep-images.s3.us-west-1.amazonaws.com/${images.videos}`}
                            alt="Weird Videos"
                            width="150"
                         />

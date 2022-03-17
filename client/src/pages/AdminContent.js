@@ -5,7 +5,7 @@ import EntryModal from "../components/EntryModal";
 import DeleteModal from "../components/DeleteModal";
 import LoadingSpin from "react-loading-spin";
 
-const AdminContent = ({ data, endpoint }) => {
+const AdminContent = ({ data, title, endpoint }) => {
    const [entry, setEntry] = useState([]);
    const [entryId, setEntryId] = useState("");
    const [deleteModalOpen, setDeleteModalOpen] = useState(false);
@@ -42,7 +42,7 @@ const AdminContent = ({ data, endpoint }) => {
    return (
       <>
          <div className="admin">
-            <h1 className="text-center">Urban Legends</h1>
+            <h1 className="text-center">{title}</h1>
             <h2>Administration</h2>
 
             <Link className="back-button" to="/admin">
@@ -57,32 +57,35 @@ const AdminContent = ({ data, endpoint }) => {
                </button>
             </div>
             <div className="flex-table">
-               {data.map((legend) => (
-                  <div className="flex-row" key={legend._id}>
+               {data.map((entry) => (
+                  <div className="flex-row" key={entry._id}>
                      <div className="flex-content">
                         <div className="flex-column flex-column--title">
-                           {legend.title}
+                           {entry.title}
                         </div>
                         <div className="flex-column flex-column--image">
-                           <img src={legend.thumbnail} alt={legend.title} />
+                           <img
+                              src={`https://cant-sleep-images.s3.us-west-1.amazonaws.com/${entry.thumbnail}`}
+                              alt={entry.title}
+                           />
                         </div>
                         {endpoint !== "videos" && (
                            <div className="flex-column flex-column--truncate">
-                              <div className="flex-story">{legend.story}</div>
+                              <div className="flex-story">{entry.content}</div>
                            </div>
                         )}
                      </div>
                      <div className="admin-update-row">
                         <button
                            className="admin__button admin__button--update"
-                           onClick={() => updateEntryModal(legend._id)}
+                           onClick={() => updateEntryModal(entry._id)}
                         >
                            Update
                         </button>
 
                         <button
                            className="admin__button admin__button--delete"
-                           onClick={() => deleteEntryModal(legend._id)}
+                           onClick={() => deleteEntryModal(entry._id)}
                         >
                            Delete
                         </button>

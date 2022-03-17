@@ -31,27 +31,27 @@ const EntryModal = ({
    const [thumbnailTitle, setThumbnailTitle] = useState("");
    const [message, setMessage] = useState("");
 
-   const { title, story, urlId } = entry;
+   const { title, content } = entry;
 
    const closeModal = () => {
       setEntryModalOpen(false);
    };
 
-   const updateEntry = (e) => {
+   const updateEntry = async (e) => {
       e.preventDefault();
       if (isNewEntry) {
-         const contentTitle = endpoint === "videos" ? "urlId" : "story";
-         const content = endpoint === "videos" ? urlId : story;
-
-         const formData = new FormData();
-         formData.append("thumbnail", thumbnail);
-         formData.append("title", title);
-         formData.append(contentTitle, content);
+         const imageFormData = new FormData();
+         imageFormData.append("thumbnail", thumbnail);
 
          try {
-            const response = fetch(`http://localhost:5000/${endpoint}`, {
+            const response = await fetch(`http://localhost:5000/${endpoint}`, {
                method: "POST",
-               body: formData,
+               body: JSON.stringify({
+                  title,
+                  thumbnail: thumbnailTitle,
+                  content,
+               }),
+               headers: { "Content-Type": "application/json" },
             });
 
             if (response.status === 200) {
@@ -61,6 +61,15 @@ const EntryModal = ({
             } else {
                console.log("400 bad request");
             }
+         } catch (error) {
+            console.error(error);
+         }
+
+         try {
+            const response = await fetch(`http://localhost:5000/aws-upload`, {
+               method: "POST",
+               body: imageFormData,
+            });
          } catch (error) {
             console.error(error);
          }
@@ -129,8 +138,8 @@ const EntryModal = ({
                <input
                   className="admin-form__field"
                   type="text"
-                  name="urlId"
-                  value={urlId || ""}
+                  name="content"
+                  value={content || ""}
                   onChange={(e) => onChange(e)}
                   placeholder="Enter ID"
                />
@@ -138,8 +147,8 @@ const EntryModal = ({
                <textarea
                   className="admin-form__textarea"
                   rows="10"
-                  name="story"
-                  value={story || ""}
+                  name="content"
+                  value={content || ""}
                   onChange={(e) => onChange(e)}
                   placeholder="Start writing a story..."
                />

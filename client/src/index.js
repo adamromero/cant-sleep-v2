@@ -90,17 +90,33 @@ const App = () => {
 
                <Route
                   path="/admin_legends"
-                  element={<AdminContent data={legends} endpoint="legends" />}
+                  element={
+                     <AdminContent
+                        data={legends}
+                        title="Urban Legends"
+                        endpoint="legends"
+                     />
+                  }
                />
                <Route
                   path="/admin_mysteries"
                   element={
-                     <AdminContent data={mysteries} endpoint="mysteries" />
+                     <AdminContent
+                        data={mysteries}
+                        title="Unsolved Mysteries"
+                        endpoint="mysteries"
+                     />
                   }
                />
                <Route
                   path="/admin_videos"
-                  element={<AdminContent data={videos} endpoint="videos" />}
+                  element={
+                     <AdminContent
+                        data={videos}
+                        title="Weird Videos"
+                        endpoint="videos"
+                     />
+                  }
                />
             </Routes>
          </BrowserRouter>

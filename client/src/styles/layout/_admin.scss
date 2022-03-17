@@ -51,13 +51,12 @@
 }
 
 .flex-column--image {
-   //max-width: 195px;
-   height: 150px;
+   height: 185px;
    margin: auto;
    display: block;
 
    img {
-      height: 150px;
+      height: 185px;
       object-fit: cover;
       width: 100%;
    }
