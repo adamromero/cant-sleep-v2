@@ -1,11 +1,10 @@
 const express = require("express");
 const cors = require("cors");
-//const path = require("path");
+const path = require("path");
 const dotenv = require("dotenv").config();
 const app = express();
 const connectDB = require("./config/db");
 
-//dotenv.config({ path: "./config/config.env" });
 connectDB();
 
 app.use(cors());
@@ -18,13 +17,13 @@ app.use("/api/videos", require("./routes/videos"));
 app.use("/api/login", require("./routes/userAdmin"));
 app.use("/api/aws-upload", require("./routes/aws"));
 
-// if (process.env.NODE_ENV === "production") {
-//    app.use(express.static(path.join(__dirname, "/client/dist")));
+if (process.env.NODE_ENV === "production") {
+   app.use(express.static(path.join(__dirname, "/client/dist")));
 
-//    app.get("*", (req, res) =>
-//       res.sendFile(path.resolve(__dirname, "client", "dist", "index.html"))
-//    );
-// }
+   app.get("*", (req, res) =>
+      res.sendFile(path.resolve(__dirname, "client", "dist", "index.html"))
+   );
+}
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, console.log(`Server running on port ${PORT}`));
