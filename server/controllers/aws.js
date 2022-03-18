@@ -46,8 +46,6 @@ const setThumbnailImage = asyncHandler(async (req, res, next) => {
    singleUpload(req, res, async (err) => {
       if (err) return res.status(400).json({ message: err.message });
 
-      //console.log(req.files);
-
       res.status(200).json({ data: req.file.location });
    });
 });

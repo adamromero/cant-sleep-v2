@@ -13,6 +13,8 @@ const AdminContent = ({ data, title, endpoint }) => {
    const [isNewEntry, setIsNewEntry] = useState(false);
    //const [isLoading, setLoading] = useState(true);
 
+   const [adminData, setAdminData] = useState(data);
+
    const { username } = useContext(AuthContext);
    const navigate = useNavigate();
 
@@ -20,7 +22,10 @@ const AdminContent = ({ data, title, endpoint }) => {
       if (!username) {
          navigate("/login");
       }
-   }, [username]);
+      console.log("component rendered");
+   }, [username, data]);
+
+   //console.log(adminData);
 
    const deleteEntryModal = (id) => {
       setDeleteModalOpen(true);
@@ -44,7 +49,9 @@ const AdminContent = ({ data, title, endpoint }) => {
          <div className="admin">
             <h1 className="text-center">{title}</h1>
             <h2>Administration</h2>
-
+            {adminData.map((entry) => (
+               <div>{entry.title}</div>
+            ))}
             <Link className="back-button" to="/admin">
                Admin Home
             </Link>

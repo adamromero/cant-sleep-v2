@@ -37,57 +37,68 @@ const EntryModal = ({
       setEntryModalOpen(false);
    };
 
-   const updateEntry = async (e) => {
-      e.preventDefault();
-      if (isNewEntry) {
-         const imageFormData = new FormData();
-         imageFormData.append("thumbnail", thumbnail);
+   const addEntry = async () => {
+      const imageFormData = new FormData();
+      imageFormData.append("thumbnail", thumbnail);
 
-         try {
-            const response = await fetch(`http://localhost:5000/${endpoint}`, {
-               method: "POST",
-               body: JSON.stringify({
-                  title,
-                  thumbnail: thumbnailTitle,
-                  content,
-               }),
-               headers: { "Content-Type": "application/json" },
-            });
-
-            if (response.status === 200) {
-               setThumbnail("");
-               setThumbnailTitle("");
-               console.log("successful upload");
-            } else {
-               console.log("400 bad request");
-            }
-         } catch (error) {
-            console.error(error);
-         }
-
-         try {
-            const response = await fetch(`http://localhost:5000/aws-upload`, {
-               method: "POST",
-               body: imageFormData,
-            });
-         } catch (error) {
-            console.error(error);
-         }
-      } else {
-         fetch(`http://localhost:5000/${endpoint}/${entry._id}`, {
-            method: "PUT",
+      try {
+         const response = await fetch(`http://localhost:5000/${endpoint}`, {
+            method: "POST",
             body: JSON.stringify({
                title,
-               story,
+               thumbnail: thumbnailTitle,
+               content,
             }),
             headers: { "Content-Type": "application/json" },
+         });
+
+         if (response.status === 200) {
+            setThumbnail("");
+            setThumbnailTitle("");
+            console.log("successful upload");
+            window.location.reload();
+         } else {
+            console.log("400 bad request");
+         }
+      } catch (error) {
+         console.error(error);
+      }
+
+      try {
+         const response = await fetch(`http://localhost:5000/aws-upload`, {
+            method: "POST",
+            body: imageFormData,
+         });
+      } catch (error) {
+         console.error(error);
+      }
+   };
+
+   const updateEntry = async () => {
+      fetch(`http://localhost:5000/${endpoint}/${entry._id}`, {
+         method: "PUT",
+         body: JSON.stringify({
+            title,
+            story,
+         }),
+         headers: { "Content-Type": "application/json" },
+      })
+         .then(() => {
+            setMessage("Updated");
+            setThumbnail("");
+            setThumbnailTitle("");
+            window.location.reload();
          })
-            .then(() => {
-               setMessage("Updated");
-               setThumbnail("");
-               setThumbnailTitle("");
-            })
-            .catch((error) => console.error(error));
+         .catch((error) => console.error(error));
+   };
+
+   const submitEntry = (e) => {
+      e.preventDefault();
+
+      if (isNewEntry) {
+         addEntry();
+      } else {
+         updateEntry();
       }
    };
 
@@ -107,7 +118,7 @@ const EntryModal = ({
          onRequestClose={closeModal}
          style={customStyles}
       >
-         <form className="admin-form" onSubmit={updateEntry}>
+         <form className="admin-form" onSubmit={submitEntry}>
             <label htmlFor="">Title:</label>
             <input
                className="admin-form__field"
