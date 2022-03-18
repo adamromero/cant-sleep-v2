@@ -12,11 +12,11 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-app.use("/legends", require("./routes/legends"));
-app.use("/mysteries", require("./routes/mysteries"));
-app.use("/videos", require("./routes/videos"));
-app.use("/login", require("./routes/userAdmin"));
-app.use("/aws-upload", require("./routes/aws"));
+app.use("/api/legends", require("./routes/legends"));
+app.use("/api/mysteries", require("./routes/mysteries"));
+app.use("/api/videos", require("./routes/videos"));
+app.use("/api/login", require("./routes/userAdmin"));
+app.use("/api/aws-upload", require("./routes/aws"));
 
 // if (process.env.NODE_ENV === "production") {
 //    app.use(express.static(path.join(__dirname, "/client/dist")));

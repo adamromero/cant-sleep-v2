@@ -42,7 +42,7 @@ const EntryModal = ({
       imageFormData.append("thumbnail", thumbnail);
 
       try {
-         const response = await fetch(`http://localhost:5000/${endpoint}`, {
+         const response = await fetch(`/api/${endpoint}`, {
             method: "POST",
             body: JSON.stringify({
                title,
@@ -65,7 +65,7 @@ const EntryModal = ({
       }
 
       try {
-         const response = await fetch(`http://localhost:5000/aws-upload`, {
+         const response = await fetch(`/api/aws-upload`, {
             method: "POST",
             body: imageFormData,
          });
@@ -75,7 +75,7 @@ const EntryModal = ({
    };
 
    const updateEntry = async () => {
-      fetch(`http://localhost:5000/${endpoint}/${entry._id}`, {
+      fetch(`/api/${endpoint}/${entry._id}`, {
          method: "PUT",
          body: JSON.stringify({
             title,

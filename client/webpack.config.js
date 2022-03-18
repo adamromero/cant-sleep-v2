@@ -2,16 +2,19 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const path = require("path");
 
 module.exports = {
-   //mode: "production",
+   mode: "production",
    entry: "./src/index.js",
    output: {
       filename: "bundle.[hash].js",
       path: path.resolve(__dirname, "dist"),
-      //publicPath: "./",
-      publicPath: "/",
+      publicPath: "./",
+      //publicPath: "/",
    },
    devServer: {
       historyApiFallback: true,
+      proxy: {
+         "/api": "http://localhost:5000",
+      },
    },
    plugins: [
       new HtmlWebpackPlugin({

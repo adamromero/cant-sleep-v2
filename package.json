@@ -8,7 +8,7 @@
       "server": "nodemon server/server.js",
       "client": "npm start --prefix client",
       "dev": "concurrently \"npm run server\" \"npm run client\"",
-      "heroku-postbuild": "npm install --prefix client && npm run build --prefix client"
+      "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
    },
    "keywords": [],
    "author": "",
@@ -29,5 +29,8 @@
       "multer-s3": "^2.10.0",
       "multiparty": "^4.2.3",
       "nodemon": "^2.0.15"
+   },
+   "devDependencies": {
+      "webpack-cli": "^4.9.2"
    }
 }

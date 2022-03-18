@@ -17,7 +17,7 @@ export const AuthProvider = ({ children }) => {
 
    async function handleLogin(credentials) {
       try {
-         await fetch("http://localhost:5000/login", {
+         await fetch("/api/login", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(credentials),

@@ -22,9 +22,9 @@ const App = () => {
 
    useEffect(() => {
       Promise.all([
-         fetch("http://localhost:5000/legends"),
-         fetch("http://localhost:5000/mysteries"),
-         fetch("http://localhost:5000/videos"),
+         fetch("/api/legends"),
+         fetch("/api/mysteries"),
+         fetch("/api/videos"),
       ])
          .then(function (responses) {
             return Promise.all(

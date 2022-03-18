@@ -24,7 +24,7 @@ const DeleteModal = ({ endpoint, entryId, isOpen, setDeleteModalOpen }) => {
    const [message, setMessage] = useState("");
 
    const deleteEntry = () => {
-      fetch(`http://localhost:5000/${endpoint}/${entryId}`, {
+      fetch(`/api/${endpoint}/${entryId}`, {
          method: "DELETE",
       }).then(() => setMessage("Entry deleted"));
 
