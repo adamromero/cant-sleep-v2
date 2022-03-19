@@ -25,6 +25,8 @@ if (process.env.NODE_ENV === "production") {
          path.resolve(__dirname, "../", "client", "dist", "index.html")
       )
    );
+} else {
+   app.get("/", (req, res) => res.send("Please set to production"));
 }
 
 const PORT = process.env.PORT || 5000;
