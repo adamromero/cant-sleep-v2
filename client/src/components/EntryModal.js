@@ -79,7 +79,7 @@ const EntryModal = ({
          method: "PUT",
          body: JSON.stringify({
             title,
-            story,
+            content,
          }),
          headers: { "Content-Type": "application/json" },
       })
