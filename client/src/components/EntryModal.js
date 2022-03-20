@@ -56,7 +56,7 @@ const EntryModal = ({
             setThumbnail("");
             setThumbnailTitle("");
             console.log("successful upload");
-            window.location.reload();
+            //window.location.reload();
          } else {
             console.log("400 bad request");
          }
@@ -87,7 +87,7 @@ const EntryModal = ({
             setMessage("Updated");
             setThumbnail("");
             setThumbnailTitle("");
-            window.location.reload();
+            //window.location.reload();
          })
          .catch((error) => console.error(error));
    };
