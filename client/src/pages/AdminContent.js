@@ -13,7 +13,7 @@ const AdminContent = ({ data, title, endpoint }) => {
    const [isNewEntry, setIsNewEntry] = useState(false);
    //const [isLoading, setLoading] = useState(true);
 
-   const [adminData, setAdminData] = useState(data);
+   const [adminData, setAdminData] = useState([]);
 
    const { username } = useContext(AuthContext);
    const navigate = useNavigate();
@@ -23,6 +23,7 @@ const AdminContent = ({ data, title, endpoint }) => {
          navigate("/login");
       }
       console.log("component rendered");
+      setAdminData(data);
    }, [username, data]);
 
    //console.log(adminData);
@@ -49,9 +50,6 @@ const AdminContent = ({ data, title, endpoint }) => {
          <div className="admin">
             <h1 className="text-center">{title}</h1>
             <h2>Administration</h2>
-            {adminData.map((entry) => (
-               <div>{entry.title}</div>
-            ))}
             <Link className="back-button" to="/admin">
                Admin Home
             </Link>
@@ -64,7 +62,7 @@ const AdminContent = ({ data, title, endpoint }) => {
                </button>
             </div>
             <div className="flex-table">
-               {data.map((entry) => (
+               {adminData.map((entry) => (
                   <div className="flex-row" key={entry._id}>
                      <div className="flex-content">
                         <div className="flex-column flex-column--title">
@@ -108,12 +106,16 @@ const AdminContent = ({ data, title, endpoint }) => {
             isOpen={entryModalOpen}
             setEntryModalOpen={setEntryModalOpen}
             isNewEntry={isNewEntry}
+            adminData={adminData}
+            setAdminData={setAdminData}
          />
          <DeleteModal
             endpoint={endpoint}
             entryId={entryId}
             isOpen={deleteModalOpen}
             setDeleteModalOpen={setDeleteModalOpen}
+            adminData={adminData}
+            setAdminData={setAdminData}
          />
       </>
    );

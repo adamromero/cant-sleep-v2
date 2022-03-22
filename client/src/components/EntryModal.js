@@ -26,6 +26,8 @@ const EntryModal = ({
    isOpen,
    setEntryModalOpen,
    isNewEntry,
+   adminData,
+   setAdminData,
 }) => {
    const [thumbnail, setThumbnail] = useState("");
    const [thumbnailTitle, setThumbnailTitle] = useState("");
@@ -41,21 +43,26 @@ const EntryModal = ({
       const imageFormData = new FormData();
       imageFormData.append("thumbnail", thumbnail);
 
+      const newEntry = {
+         _id: "",
+         title,
+         thumbnail: thumbnailTitle,
+         content,
+      };
+
+      setAdminData([...adminData, newEntry]);
+
       try {
          const response = await fetch(`/api/${endpoint}`, {
             method: "POST",
-            body: JSON.stringify({
-               title,
-               thumbnail: thumbnailTitle,
-               content,
-            }),
+            body: JSON.stringify(newEntry),
             headers: { "Content-Type": "application/json" },
          });
 
          if (response.status === 200) {
+            setMessage("Uploaded");
             setThumbnail("");
             setThumbnailTitle("");
-            console.log("successful upload");
             //window.location.reload();
          } else {
             console.log("400 bad request");
@@ -75,12 +82,19 @@ const EntryModal = ({
    };
 
    const updateEntry = async () => {
+      const updatedEntry = {
+         _id: "",
+         title,
+         thumbnail: thumbnailTitle,
+         content,
+      };
+
+      //adminData.filter(entryItem => entryItem._id === entry._id)
+      //setAdminData([...adminData, updatedEntry]);
+
       fetch(`/api/${endpoint}/${entry._id}`, {
          method: "PUT",
-         body: JSON.stringify({
-            title,
-            content,
-         }),
+         body: JSON.stringify(updatedEntry),
          headers: { "Content-Type": "application/json" },
       })
          .then(() => {

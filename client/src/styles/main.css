@@ -985,8 +985,8 @@ h2 {
 }
 
 .iframe-content {
-  overflow: hidden;
   padding-bottom: 56.25%;
+  padding-top: 25px;
   position: relative;
   height: 0;
 }

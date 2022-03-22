@@ -20,13 +20,20 @@ const customStyles = {
    },
 };
 
-const DeleteModal = ({ endpoint, entryId, isOpen, setDeleteModalOpen }) => {
-   const [message, setMessage] = useState("");
-
+const DeleteModal = ({
+   endpoint,
+   entryId,
+   isOpen,
+   setDeleteModalOpen,
+   adminData,
+   setAdminData,
+}) => {
    const deleteEntry = () => {
+      setAdminData(adminData.filter((entry) => entry._id !== entryId));
+
       fetch(`/api/${endpoint}/${entryId}`, {
          method: "DELETE",
-      }).then(() => setMessage("Entry deleted"));
+      });
 
       closeModal();
    };
@@ -61,7 +68,6 @@ const DeleteModal = ({ endpoint, entryId, isOpen, setDeleteModalOpen }) => {
                Delete
             </button>
          </div>
-         <div>{message}</div>
       </Modal>
    );
 };
