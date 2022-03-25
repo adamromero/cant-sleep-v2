@@ -22,6 +22,14 @@ object-assign
  * http://api.jqueryui.com/category/ui-core/
  */
 
+/*!
+ * Pusher JavaScript Library v7.0.6
+ * https://pusher.com/
+ *
+ * Copyright 2020, Pusher
+ * Released under the MIT licence.
+ */
+
 /*! For license information please see index.js.LICENSE.txt */
 
 /**
