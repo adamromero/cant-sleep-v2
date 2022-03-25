@@ -1,31 +1,19 @@
 const common = require("./webpack.common");
 const { merge } = require("webpack-merge");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
 const path = require("path");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 
-module.exports = {
+module.exports = merge(common, {
    mode: "production",
    output: {
       filename: "bundle.[hash].js",
       path: path.resolve(__dirname, "dist"),
       publicPath: "./",
-      //clean: true,
+      clean: true,
    },
-   module: {
-      rules: [
-         {
-            test: /\.jsx?$/,
-            exclude: /node_modules/,
-            loader: require.resolve("babel-loader"),
-         },
-         {
-            test: /\.css$/,
-            use: ["style-loader", "css-loader"],
-         },
-         {
-            test: /\.png|svg|jpg|gif$/,
-            use: ["file-loader"],
-         },
-      ],
-   },
-};
+   plugins: [
+      new MiniCssExtractPlugin({ filename: "[name].[contenthash].css" }),
+      new CleanWebpackPlugin(),
+   ],
+});
