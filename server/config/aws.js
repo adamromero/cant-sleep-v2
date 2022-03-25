@@ -40,7 +40,29 @@ const upload = multer({
    }),
 });
 
-const setThumbnailImage = asyncHandler(async (req, res, next) => {
+const deleteImage = asyncHandler(async (req, res, next) => {
+   const params = {
+      Bucket: process.env.AWS_BUCKET_NAME,
+      Key: req.body.image,
+   };
+
+   await s3.deleteObject(params, (err, data) => {
+      if (err) {
+         console.log(err);
+         res.status(500).json({
+            success: false,
+            error: "Server Error",
+         });
+      } else {
+         res.status(200).json({
+            success: true,
+            data: data,
+         });
+      }
+   });
+});
+
+const setImage = asyncHandler(async (req, res, next) => {
    const singleUpload = upload.single("thumbnail");
 
    singleUpload(req, res, async (err) => {
@@ -50,4 +72,4 @@ const setThumbnailImage = asyncHandler(async (req, res, next) => {
    });
 });
 
-module.exports = setThumbnailImage;
+module.exports = { setImage, deleteImage };

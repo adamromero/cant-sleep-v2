@@ -4,6 +4,7 @@ const path = require("path");
 const dotenv = require("dotenv").config();
 const app = express();
 const connectDB = require("./config/db");
+const { setImage, deleteImage } = require("./config/aws");
 
 connectDB();
 
@@ -15,7 +16,8 @@ app.use("/api/legends", require("./routes/legends"));
 app.use("/api/mysteries", require("./routes/mysteries"));
 app.use("/api/videos", require("./routes/videos"));
 app.use("/api/login", require("./routes/userAdmin"));
-app.use("/api/aws-upload", require("./routes/aws"));
+app.use("/api/aws-upload", setImage);
+app.use("/api/aws-delete", deleteImage);
 
 if (process.env.NODE_ENV === "production") {
    app.use(express.static(path.join(__dirname, "../client/dist")));

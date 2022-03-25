@@ -1068,6 +1068,7 @@ h2 {
 .admin {
   max-width: 960px;
   margin: 0 auto 30px;
+  padding: 0 16px;
 }
 
 .admin-table {
@@ -1090,9 +1091,21 @@ h2 {
   margin: 0 0 30px;
   display: -ms-grid;
   display: grid;
-  -ms-grid-columns: 1fr 1fr 1fr;
-      grid-template-columns: 1fr 1fr 1fr;
   gap: 32px 16px;
+}
+
+@media (min-width: 642px) {
+  .flex-table {
+    -ms-grid-columns: 1fr 1fr;
+        grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (min-width: 1050px) {
+  .flex-table {
+    -ms-grid-columns: 1fr 1fr 1fr;
+        grid-template-columns: 1fr 1fr 1fr;
+  }
 }
 
 .flex-table .flex-row {
@@ -1105,6 +1118,14 @@ h2 {
           flex-direction: column;
   -ms-flex-item-align: end;
       align-self: flex-end;
+  max-width: 300px;
+  margin: auto;
+}
+
+@media (min-width: 642px) {
+  .flex-table .flex-row {
+    max-width: 100%;
+  }
 }
 
 .flex-table .flex-column {

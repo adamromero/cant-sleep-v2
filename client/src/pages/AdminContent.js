@@ -4,6 +4,10 @@ import { Link, useNavigate } from "react-router-dom";
 import EntryModal from "../components/EntryModal";
 import DeleteModal from "../components/DeleteModal";
 import LoadingSpin from "react-loading-spin";
+import Pusher from "pusher-js";
+
+const PUSHER_APP_ID = "f52ae194b9517e40926d";
+const PUSHER_CLUSTER = process.env.PUSHER_CLUSTER;
 
 const AdminContent = ({ data, title, endpoint }) => {
    const [entry, setEntry] = useState([]);
@@ -18,12 +22,22 @@ const AdminContent = ({ data, title, endpoint }) => {
    const { username } = useContext(AuthContext);
    const navigate = useNavigate();
 
+   
+
    useEffect(() => {
       if (!username) {
          navigate("/login");
       }
       console.log("component rendered");
       setAdminData(data);
+
+      // const pusher = new Pusher(PUSHER_APP_ID, {
+      //    cluster: PUSHER_CLUSTER,
+      // });
+
+      // const channel = pusher.subscribe("data"); 
+      // console.log(pusher);
+
    }, [username, data]);
 
    //console.log(adminData);
@@ -44,6 +58,8 @@ const AdminContent = ({ data, title, endpoint }) => {
       setIsNewEntry(true);
       setEntryModalOpen(true);
    };
+
+   
 
    return (
       <>

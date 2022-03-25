@@ -1,11 +1,15 @@
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const path = require("path");
+const Dotenv = require("dotenv-webpack");
 
 module.exports = {
    entry: "./src/index.js",
    plugins: [
       new HtmlWebpackPlugin({
          template: "./src/index.html",
+      }),
+      new Dotenv({
+         //ignoreStub: true,
       }),
    ],
    resolve: {

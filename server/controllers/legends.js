@@ -1,7 +1,16 @@
 const asyncHandler = require("express-async-handler");
 const path = require("path");
+const Pusher = require("pusher");
 
 const Legends = require("../models/Legends");
+
+const pusher = new Pusher({
+   appId: process.env.PUSHER_APP_ID,
+   key: process.env.PUSHER_KEY,
+   secret: process.env.PUSHER_SECRET,
+   cluster: process.env.PUSHER_CLUSTER,
+   useTLS: true,
+});
 
 const getLegends = asyncHandler(async (req, res, next) => {
    try {
@@ -46,6 +55,10 @@ const addLegends = asyncHandler(async (req, res, next) => {
       thumbnail: req.body.thumbnail,
       content: req.body.content,
    });
+
+   pusher.trigger("admin", "entry", {
+      
+   })
 
    res.status(200).json(legend);
 });

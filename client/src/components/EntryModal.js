@@ -1,5 +1,9 @@
 import React, { useState } from "react";
 import Modal from "react-modal";
+import {
+   postImageToBucket,
+   removeImageFromBucket,
+} from "../utils/awsImageHelpers";
 
 const customStyles = {
    content: {
@@ -32,15 +36,14 @@ const EntryModal = ({
    const [thumbnail, setThumbnail] = useState("");
    const [thumbnailTitle, setThumbnailTitle] = useState("");
    const [message, setMessage] = useState("");
-
    const { title, content } = entry;
+   const imageFormData = new FormData();
 
    const closeModal = () => {
       setEntryModalOpen(false);
    };
 
    const addEntry = async () => {
-      const imageFormData = new FormData();
       imageFormData.append("thumbnail", thumbnail);
 
       const newEntry = {
@@ -63,7 +66,6 @@ const EntryModal = ({
             setMessage("Uploaded");
             setThumbnail("");
             setThumbnailTitle("");
-            //window.location.reload();
          } else {
             console.log("400 bad request");
          }
@@ -71,19 +73,14 @@ const EntryModal = ({
          console.error(error);
       }
 
-      try {
-         const response = await fetch(`/api/aws-upload`, {
-            method: "POST",
-            body: imageFormData,
-         });
-      } catch (error) {
-         console.error(error);
-      }
+      postImageToBucket(imageFormData);
    };
 
    const updateEntry = async () => {
+      imageFormData.append("thumbnail", thumbnail);
+
       const updatedEntry = {
-         _id: "",
+         _id: entry._id,
          title,
          thumbnail: thumbnailTitle,
          content,
@@ -91,6 +88,8 @@ const EntryModal = ({
 
       //adminData.filter(entryItem => entryItem._id === entry._id)
       //setAdminData([...adminData, updatedEntry]);
+
+      removeImageFromBucket(entry.thumbnail);
 
       fetch(`/api/${endpoint}/${entry._id}`, {
          method: "PUT",
@@ -101,9 +100,10 @@ const EntryModal = ({
             setMessage("Updated");
             setThumbnail("");
             setThumbnailTitle("");
-            //window.location.reload();
          })
          .catch((error) => console.error(error));
+
+      postImageToBucket(imageFormData);
    };
 
    const submitEntry = (e) => {

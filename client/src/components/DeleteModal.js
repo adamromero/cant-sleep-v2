@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Modal from "react-modal";
+import { removeImageFromBucket } from "../utils/awsImageHelpers";
 
 const customStyles = {
    content: {
@@ -29,12 +30,15 @@ const DeleteModal = ({
    setAdminData,
 }) => {
    const deleteEntry = () => {
+      const image = adminData.filter((entry) => entry._id === entryId)[0]
+         .thumbnail;
       setAdminData(adminData.filter((entry) => entry._id !== entryId));
 
       fetch(`/api/${endpoint}/${entryId}`, {
          method: "DELETE",
       });
 
+      removeImageFromBucket(image);
       closeModal();
    };
 

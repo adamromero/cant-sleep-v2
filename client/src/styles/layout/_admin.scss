@@ -1,6 +1,7 @@
 .admin {
    max-width: 960px;
    margin: 0 auto 30px;
+   padding: 0 16px;
 }
 
 .admin-table {
@@ -22,25 +23,30 @@
    max-width: 960px;
    margin: 0 0 30px;
    display: grid;
-   grid-template-columns: 1fr 1fr 1fr;
    gap: 32px 16px;
+
+   @media (min-width: 642px) {
+      grid-template-columns: 1fr 1fr;
+   }
+
+   @media (min-width: 1050px) {
+      grid-template-columns: 1fr 1fr 1fr;
+   }
 
    .flex-row {
       display: flex;
       flex-direction: column;
       align-self: flex-end;
+      max-width: 300px;
+      margin: auto;
+
+      @media (min-width: 642px) {
+         max-width: 100%;
+      }
    }
    .flex-content {
    }
    .flex-column {
-      // box-sizing: border-box;
-      // flex-grow: 1;
-      // width: 33.33%;
-      // padding: 0.8em 1.2em;
-      // align-items: flex-start;
-      // display: flex;
-      // height: 300px;
-
       overflow: hidden;
    }
 }
